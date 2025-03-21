@@ -88,6 +88,8 @@ module.exports = grammar({
 
     parameter: ($) => seq($.identifier, ":", $.type_or_object),
 
+    null: ($) => "null",
+
     type: ($) =>
       prec(
         1,
@@ -119,8 +121,7 @@ module.exports = grammar({
           "b16",
           "b32",
           "b64",
-          "void",
-          "null",
+          $.null,
         ),
       ),
 
@@ -267,7 +268,7 @@ module.exports = grammar({
       ),
 
     literal: ($) =>
-      choice($.number, $.boolean, $.string, $.list, $.tuple, $.record, "null"),
+      choice($.number, $.boolean, $.string, $.list, $.tuple, $.record, $.null),
 
     number: ($) => choice($.integer, $.float, $.hex, $.oct, $.bin),
 

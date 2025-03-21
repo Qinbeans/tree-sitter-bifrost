@@ -533,7 +533,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "boolean",
@@ -541,6 +541,10 @@
         },
         {
           "type": "list",
+          "named": true
+        },
+        {
+          "type": "null",
           "named": true
         },
         {
@@ -1023,6 +1027,10 @@
           "named": true
         },
         {
+          "type": "null",
+          "named": true
+        },
+        {
           "type": "tuple_type",
           "named": true
         }
@@ -1398,7 +1406,7 @@
   },
   {
     "type": "null",
-    "named": false
+    "named": true
   },
   {
     "type": "o16",
@@ -1418,11 +1426,11 @@
   },
   {
     "type": "oct",
-    "named": false
+    "named": true
   },
   {
     "type": "oct",
-    "named": true
+    "named": false
   },
   {
     "type": "panic",
@@ -1450,11 +1458,11 @@
   },
   {
     "type": "string",
-    "named": true
+    "named": false
   },
   {
     "type": "string",
-    "named": false
+    "named": true
   },
   {
     "type": "super",
@@ -1482,10 +1490,6 @@
   },
   {
     "type": "u8",
-    "named": false
-  },
-  {
-    "type": "void",
     "named": false
   },
   {

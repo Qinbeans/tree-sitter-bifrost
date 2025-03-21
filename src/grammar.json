@@ -575,6 +575,10 @@
         }
       ]
     },
+    "null": {
+      "type": "STRING",
+      "value": "null"
+    },
     "type": {
       "type": "PREC",
       "value": 1,
@@ -690,12 +694,8 @@
             "value": "b64"
           },
           {
-            "type": "STRING",
-            "value": "void"
-          },
-          {
-            "type": "STRING",
-            "value": "null"
+            "type": "SYMBOL",
+            "name": "null"
           }
         ]
       }
@@ -1987,8 +1987,8 @@
           "name": "record"
         },
         {
-          "type": "STRING",
-          "value": "null"
+          "type": "SYMBOL",
+          "name": "null"
         }
       ]
     },
