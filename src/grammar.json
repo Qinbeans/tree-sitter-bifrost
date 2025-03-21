@@ -713,6 +713,10 @@
           {
             "type": "SYMBOL",
             "name": "identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "child_annotation"
           }
         ]
       }

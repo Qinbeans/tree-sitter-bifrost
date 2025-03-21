@@ -125,7 +125,8 @@ module.exports = grammar({
         ),
       ),
 
-    type_or_object: ($) => prec(2, choice($.type, $.identifier)),
+    type_or_object: ($) =>
+      prec(2, choice($.type, $.identifier, $.child_annotation)),
 
     ellipsis: ($) => "...",
 

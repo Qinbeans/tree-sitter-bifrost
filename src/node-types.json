@@ -1046,6 +1046,10 @@
       "required": true,
       "types": [
         {
+          "type": "child_annotation",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
