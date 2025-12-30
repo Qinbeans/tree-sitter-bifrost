@@ -40,7 +40,7 @@ jobs:
       - name: Build wheels with cibuildwheel
         env:
           CIBW_BUILD: ${{ env.CIBW_BUILD }}
-          CIBW_SKIP: pp* *musllinux*
+          CIBW_SKIP: "*i686 *win32 *ppc64le *s390x *musllinux*"
         run: |
           python -m cibuildwheel --output-dir wheelhouse
 
@@ -64,5 +64,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: dist/**/*.whl
+          overwrite_files: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
