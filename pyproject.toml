@@ -1,3 +1,5 @@
+[tool.hatch.build.targets.wheel]
+packages = ["bindings/python/tree_sitter_bifrost"]
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
