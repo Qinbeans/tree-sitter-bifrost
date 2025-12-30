@@ -131,8 +131,8 @@ jobs:
         run: |
           python3 <<EOF
           import os, json
-          index = {}
           dist_dir = 'dist'
+          index = {}
           for root, _, files in os.walk(dist_dir):
             for fname in files:
               if fname.endswith('.whl') or fname.endswith('.tar.gz'):
@@ -142,7 +142,7 @@ jobs:
                 name = parts[0].replace('_', '-')
                 version = parts[1]
                 url = fname
-                index.setdefault(name, {})[version] = {'url': url}
+                index.setdefault(name, {}).setdefault(version, []).append({"url": url})
           with open('flat-index.json', 'w') as f:
             json.dump(index, f, indent=2)
           EOF
