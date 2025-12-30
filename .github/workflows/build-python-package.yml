@@ -129,23 +129,7 @@ jobs:
 
       - name: Generate flat-index.json
         run: |
-          python3 <<EOF
-          import os, json
-          dist_dir = 'dist'
-          index = {}
-          for root, _, files in os.walk(dist_dir):
-            for fname in files:
-              if fname.endswith('.whl') or fname.endswith('.tar.gz'):
-                parts = fname.split('-')
-                if len(parts) < 2:
-                  continue
-                name = parts[0].replace('_', '-')
-                version = parts[1]
-                url = fname
-                index.setdefault(name, {}).setdefault(version, []).append({"url": url})
-          with open('flat-index.json', 'w') as f:
-            json.dump(index, f, indent=2)
-          EOF
+          python scripts/generate_flat_index.py
         shell: bash
 
       - name: Upload Release Asset
