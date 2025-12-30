@@ -86,7 +86,7 @@ jobs:
       - name: Build wheels with cibuildwheel
         env:
           CIBW_BUILD: ${{ env.CIBW_BUILD }}
-          CIBW_SKIP: "*i686 *win32 *ppc64le *s390x *musllinux*"
+          CIBW_SKIP: "*i686 *ppc64le *s390x *musllinux*"
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
           CIBW_MANYLINUX_AARCH64_IMAGE: manylinux2014
         run: |
