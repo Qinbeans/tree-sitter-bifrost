@@ -65,7 +65,6 @@ setup(
   ],
   cmdclass={
     "build": Build,
-    "bdist_wheel": BdistWheel,
     "egg_info": EggInfo,
   },
   zip_safe=False,
