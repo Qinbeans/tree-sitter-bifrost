@@ -108,10 +108,33 @@ jobs:
         with:
           path: dist
 
+      - name: Generate flat-index.json
+        run: |
+          python3 <<EOF
+          import os, json
+          index = {}
+          dist_dir = 'dist'
+          for root, _, files in os.walk(dist_dir):
+            for fname in files:
+              if fname.endswith('.whl') or fname.endswith('.tar.gz'):
+                parts = fname.split('-')
+                if len(parts) < 2:
+                  continue
+                name = parts[0].replace('_', '-')
+                version = parts[1]
+                url = fname
+                index.setdefault(name, {})[version] = {'url': url}
+          with open('flat-index.json', 'w') as f:
+            json.dump(index, f, indent=2)
+          EOF
+        shell: bash
+
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/**/*.whl
+          files: |
+            dist/**/*.whl
+            flat-index.json
           overwrite_files: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
