@@ -12,12 +12,52 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest, macos-14] # macos-14 is arm64
-        python: ["3.10", "3.11", "3.12", "3.13", "3.14"]
-        exclude:
-          # macos-14 is arm64 only, so skip on other macos for arm64
-          - os: macos-latest
-            python: "3.14" # Remove if not yet supported
+        include:
+          - os: ubuntu-latest
+            python: "3.10"
+            arch: x86_64
+          - os: ubuntu-latest
+            python: "3.11"
+            arch: x86_64
+          - os: ubuntu-latest
+            python: "3.12"
+            arch: x86_64
+          - os: ubuntu-latest
+            python: "3.13"
+            arch: x86_64
+          - os: ubuntu-latest
+            python: "3.14"
+            arch: x86_64
+          - os: windows-latest
+            python: "3.10"
+            arch: x86_64
+          - os: windows-latest
+            python: "3.11"
+            arch: x86_64
+          - os: windows-latest
+            python: "3.12"
+            arch: x86_64
+          - os: windows-latest
+            python: "3.13"
+            arch: x86_64
+          - os: windows-latest
+            python: "3.14"
+            arch: x86_64
+          - os: macos-14
+            python: "3.10"
+            arch: arm64
+          - os: macos-14
+            python: "3.11"
+            arch: arm64
+          - os: macos-14
+            python: "3.12"
+            arch: arm64
+          - os: macos-14
+            python: "3.13"
+            arch: arm64
+          - os: macos-14
+            python: "3.14"
+            arch: arm64
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -35,12 +75,20 @@ jobs:
         shell: bash
         run: |
           PYVER_NO_DOT=$(echo "${{ matrix.python }}" | tr -d .)
-          echo "CIBW_BUILD=cp${PYVER_NO_DOT}-*" >> $GITHUB_ENV
+          if [[ "${{ matrix.os }}" == "macos-14" ]]; then
+            echo "CIBW_BUILD=cp${PYVER_NO_DOT}-macosx_arm64" >> $GITHUB_ENV
+          elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            echo "CIBW_BUILD=cp${PYVER_NO_DOT}-win_amd64" >> $GITHUB_ENV
+          else
+            echo "CIBW_BUILD=cp${PYVER_NO_DOT}-manylinux_x86_64" >> $GITHUB_ENV
+          fi
 
       - name: Build wheels with cibuildwheel
         env:
           CIBW_BUILD: ${{ env.CIBW_BUILD }}
           CIBW_SKIP: "*i686 *win32 *ppc64le *s390x *musllinux*"
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
+          CIBW_MANYLINUX_AARCH64_IMAGE: manylinux2014
         run: |
           python -m cibuildwheel --output-dir wheelhouse
 

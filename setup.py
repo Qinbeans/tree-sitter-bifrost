@@ -35,12 +35,7 @@ class Build(build):
     super().run()
 
 
-class BdistWheel(bdist_wheel):
-  def get_tag(self):
-    python, abi, platform = super().get_tag()
-    if python.startswith("cp"):
-      python, abi = "cp310", "abi3"
-    return python, abi, platform
+
 
 
 class EggInfo(egg_info):
