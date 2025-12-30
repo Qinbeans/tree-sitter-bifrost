@@ -129,6 +129,7 @@ jobs:
 
       - name: Generate flat-index.json
         run: |
+          ls scripts
           python scripts/generate_flat_index.py
         shell: bash
 
