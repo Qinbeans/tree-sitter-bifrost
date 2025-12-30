@@ -1358,11 +1358,11 @@
   },
   {
     "type": "hex",
-    "named": true
+    "named": false
   },
   {
     "type": "hex",
-    "named": false
+    "named": true
   },
   {
     "type": "i16",
@@ -1430,11 +1430,11 @@
   },
   {
     "type": "oct",
-    "named": true
+    "named": false
   },
   {
     "type": "oct",
-    "named": false
+    "named": true
   },
   {
     "type": "panic",

@@ -8,13 +8,13 @@ pub fn build(b: *std.Build) !void {
     const reuse_alloc = b.option(bool, "reuse-allocator", "Reuse the library allocator") orelse false;
 
     const lib: *std.Build.Step.Compile = if (shared) b.addSharedLibrary(.{
-        .name = "tree-sitter-mimi",
+        .name = "tree-sitter-bifrost",
         .pic = true,
         .target = target,
         .optimize = optimize,
         .link_libc = true,
     }) else b.addStaticLibrary(.{
-        .name = "tree-sitter-mimi",
+        .name = "tree-sitter-bifrost",
         .target = target,
         .optimize = optimize,
         .link_libc = true,
@@ -44,7 +44,7 @@ pub fn build(b: *std.Build) !void {
     b.installFile("src/node-types.json", "node-types.json");
     b.installDirectory(.{ .source_dir = b.path("queries"), .install_dir = .prefix, .install_subdir = "queries", .include_extensions = &.{"scm"} });
 
-    const module = b.addModule("tree-sitter-mimi", .{
+    const module = b.addModule("tree-sitter-bifrost", .{
         .root_source_file = b.path("bindings/zig/root.zig"),
         .target = target,
         .optimize = optimize,

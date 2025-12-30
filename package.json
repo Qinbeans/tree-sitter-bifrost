@@ -1,8 +1,8 @@
 {
-  "name": "tree-sitter-mimi",
+  "name": "tree-sitter-bifrost",
   "version": "0.1.0",
-  "description": "Mimi grammar for tree-sitter",
-  "repository": "https://github.com/qinbeans/mimi-lang",
+  "description": "Bifrost grammar for tree-sitter",
+  "repository": "https://github.com/qinbeans/tree-sitter-bifrost",
   "license": "MIT",
   "author": {
     "name": "Ryan Fong",
@@ -15,7 +15,7 @@
     "incremental",
     "parsing",
     "tree-sitter",
-    "mimi"
+    "bifrost"
   ],
   "files": [
     "grammar.js",
@@ -32,8 +32,7 @@
     "node-gyp-build": "^4.8.2"
   },
   "devDependencies": {
-    "prebuildify": "^6.0.1",
-    "tree-sitter-cli": "^0.25.3"
+    "prebuildify": "^6.0.1"
   },
   "peerDependencies": {
     "tree-sitter": "^0.21.1"

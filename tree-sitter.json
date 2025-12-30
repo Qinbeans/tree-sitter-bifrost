@@ -2,19 +2,19 @@
   "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
   "grammars": [
     {
-      "name": "mimi",
-      "camelcase": "Mimi",
-      "title": "Mimi",
-      "scope": "source.Mimi",
-      "file-types": ["mimi"],
-      "injection-regex": "^mimi$",
-      "class-name": "TreeSitterMimi"
+      "name": "bifrost",
+      "camelcase": "Bifrost",
+      "title": "Bifrost",
+      "scope": "source.bifrost",
+      "file-types": ["bifrost"],
+      "injection-regex": "^bifrost$",
+      "class-name": "TreeSitterBifrost"
     }
   ],
   "metadata": {
     "version": "0.1.0",
     "license": "MIT",
-    "description": "Mimi grammar for tree-sitter",
+    "description": "Bifrost grammar for tree-sitter",
     "authors": [
       {
         "name": "Ryan Fong",
@@ -23,16 +23,10 @@
       }
     ],
     "links": {
-      "repository": "https://github.com/Qinbeans/mimi-lang"
+      "repository": "https://github.com/Qinbeans/bifrost-lang"
     }
   },
   "bindings": {
-    "c": true,
-    "go": true,
-    "node": true,
-    "python": true,
-    "rust": true,
-    "swift": true,
-    "zig": true
+    "python": true
   }
 }

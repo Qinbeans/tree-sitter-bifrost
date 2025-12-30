@@ -21,9 +21,6 @@ importers:
       prebuildify:
         specifier: ^6.0.1
         version: 6.0.1
-      tree-sitter-cli:
-        specifier: ^0.25.3
-        version: 0.25.3
 
 packages:
 
@@ -108,11 +105,6 @@ packages:
   tar-stream@2.2.0:
     resolution: {integrity: sha512-ujeqbceABgwMZxEJnk2HDY2DlnUZ+9oEcb1KzTVfYHio0UE6dG71n60d8D2I4qNvleWrrXpmjpt7vZeF1LnMZQ==}
     engines: {node: '>=6'}
-
-  tree-sitter-cli@0.25.3:
-    resolution: {integrity: sha512-Bk6ZUXG+cKnwZpfR/te4NDrKld90p6350eqWlbLwSpV9/8vmL/x8LCw+3k7quY9oMDaYoMXHMvokXJbkM5A7bA==}
-    engines: {node: '>=12.0.0'}
-    hasBin: true
 
   tree-sitter@0.21.1:
     resolution: {integrity: sha512-7dxoA6kYvtgWw80265MyqJlkRl4yawIjO7S5MigytjELkX43fV2WsAXzsNfO7sBpPPCF5Gp0+XzHk0DwLCq3xQ==}
@@ -214,8 +206,6 @@ snapshots:
       fs-constants: 1.0.0
       inherits: 2.0.4
       readable-stream: 3.6.2
-
-  tree-sitter-cli@0.25.3: {}
 
   tree-sitter@0.21.1:
     dependencies:

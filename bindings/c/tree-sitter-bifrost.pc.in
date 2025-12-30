@@ -2,10 +2,10 @@ prefix=@PREFIX@
 libdir=@LIBDIR@
 includedir=@INCLUDEDIR@
 
-Name: tree-sitter-mimi
-Description: Mimi grammar for tree-sitter
+Name: tree-sitter-bifrost
+Description: Bifrost grammar for tree-sitter
 URL: @URL@
 Version: @VERSION@
 Requires: @REQUIRES@
-Libs: -L${libdir} @ADDITIONAL_LIBS@ -ltree-sitter-mimi
+Libs: -L${libdir} @ADDITIONAL_LIBS@ -ltree-sitter-bifrost
 Cflags: -I${includedir}

@@ -1,5 +1,5 @@
 .{
-    .name = "tree-sitter-mimi",
+    .name = "tree-sitter-bifrost",
     .version = "0.1.0",
     .dependencies = .{ .@"tree-sitter" = .{
         .url = "https://github.com/tree-sitter/zig-tree-sitter/archive/refs/tags/v0.25.0.tar.gz",

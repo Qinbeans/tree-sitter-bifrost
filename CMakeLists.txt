@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(tree-sitter-calcit
+project(tree-sitter-bifrost
         VERSION "0.1.0"
-        DESCRIPTION "Calcit grammar for tree-sitter"
-        HOMEPAGE_URL "https://github.com/qinbeans/calcit"
+        DESCRIPTION "Bifrost grammar for tree-sitter"
+        HOMEPAGE_URL "https://github.com/qinbeans/bifrost"
         LANGUAGES C)
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
@@ -24,42 +24,42 @@ add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/src/parser.c"
                    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
                    COMMENT "Generating parser.c")
 
-add_library(tree-sitter-calcit src/parser.c)
+add_library(tree-sitter-bifrost src/parser.c)
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scanner.c)
-  target_sources(tree-sitter-calcit PRIVATE src/scanner.c)
+  target_sources(tree-sitter-bifrost PRIVATE src/scanner.c)
 endif()
-target_include_directories(tree-sitter-calcit
+target_include_directories(tree-sitter-bifrost
                            PRIVATE src
                            INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/bindings/c>
                                      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
-target_compile_definitions(tree-sitter-calcit PRIVATE
+target_compile_definitions(tree-sitter-bifrost PRIVATE
                            $<$<BOOL:${TREE_SITTER_REUSE_ALLOCATOR}>:TREE_SITTER_REUSE_ALLOCATOR>
                            $<$<CONFIG:Debug>:TREE_SITTER_DEBUG>)
 
-set_target_properties(tree-sitter-calcit
+set_target_properties(tree-sitter-bifrost
                       PROPERTIES
                       C_STANDARD 11
                       POSITION_INDEPENDENT_CODE ON
                       SOVERSION "${TREE_SITTER_ABI_VERSION}.${PROJECT_VERSION_MAJOR}"
                       DEFINE_SYMBOL "")
 
-configure_file(bindings/c/tree-sitter-calcit.pc.in
-               "${CMAKE_CURRENT_BINARY_DIR}/tree-sitter-calcit.pc" @ONLY)
+configure_file(bindings/c/tree-sitter-bifrost.pc.in
+               "${CMAKE_CURRENT_BINARY_DIR}/tree-sitter-bifrost.pc" @ONLY)
 
 include(GNUInstallDirs)
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bindings/c/tree_sitter"
         DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
         FILES_MATCHING PATTERN "*.h")
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/tree-sitter-calcit.pc"
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/tree-sitter-bifrost.pc"
         DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig")
-install(TARGETS tree-sitter-calcit
+install(TARGETS tree-sitter-bifrost
         LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 
 file(GLOB QUERIES queries/*.scm)
 install(FILES ${QUERIES}
-        DESTINATION "${CMAKE_INSTALL_DATADIR}/tree-sitter/queries/calcit")
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/tree-sitter/queries/bifrost")
 
 add_custom_target(ts-test "${TREE_SITTER_CLI}" test
                   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"

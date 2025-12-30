@@ -1,4 +1,4 @@
-lib_name = tree_sitter_mimi
+lib_name = tree_sitter_bifrost
 suffix = .a
 rm_cmd = rm -f
 

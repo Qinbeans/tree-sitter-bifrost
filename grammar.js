@@ -1,5 +1,5 @@
 /**
- * @file Mimi grammar for tree-sitter
+ * @file Bifrost grammar for tree-sitter
  * @author Ryan Fong <ryan.lawrence.fong@gmail.com>
  * @license MIT
  */
@@ -8,7 +8,7 @@
 // @ts-check
 
 module.exports = grammar({
-  name: "mimi",
+  name: "bifrost",
 
   rules: {
     source_file: ($) =>

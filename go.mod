@@ -1,4 +1,4 @@
-module github.com/qinbeans/calcit
+module github.com/qinbeans/tree-sitter-bifrost
 
 go 1.22
 

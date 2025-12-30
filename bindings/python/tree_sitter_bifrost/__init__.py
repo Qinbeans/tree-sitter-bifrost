@@ -1,4 +1,4 @@
-"Mimi grammar for tree-sitter"
+"Bifrost grammar for tree-sitter"
 
 from ._binding import language
 

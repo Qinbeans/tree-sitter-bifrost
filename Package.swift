@@ -9,16 +9,16 @@ if FileManager.default.fileExists(atPath: "src/scanner.c") {
 }
 
 let package = Package(
-    name: "TreeSitterMimi",
+    name: "TreeSitterBifrost",
     products: [
-        .library(name: "TreeSitterMimi", targets: ["TreeSitterMimi"]),
+        .library(name: "TreeSitterBifrost", targets: ["TreeSitterBifrost"]),
     ],
     dependencies: [
         .package(url: "https://github.com/tree-sitter/swift-tree-sitter", from: "0.8.0"),
     ],
     targets: [
         .target(
-            name: "TreeSitterMimi",
+            name: "TreeSitterBifrost",
             dependencies: [],
             path: ".",
             sources: sources,
@@ -29,12 +29,12 @@ let package = Package(
             cSettings: [.headerSearchPath("src")]
         ),
         .testTarget(
-            name: "TreeSitterMimiTests",
+            name: "TreeSitterBifrostTests",
             dependencies: [
                 "SwiftTreeSitter",
-                "TreeSitterMimi",
+                "TreeSitterBifrost",
             ],
-            path: "bindings/swift/TreeSitterMimiTests"
+            path: "bindings/swift/TreeSitterBifrostTests"
         )
     ],
     cLanguageStandard: .c11
