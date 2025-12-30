@@ -43,6 +43,21 @@ jobs:
           - os: windows-latest
             python: "3.14"
             arch: x86_64
+          - os: windows-latest
+            python: "3.10"
+            arch: x86
+          - os: windows-latest
+            python: "3.11"
+            arch: x86
+          - os: windows-latest
+            python: "3.12"
+            arch: x86
+          - os: windows-latest
+            python: "3.13"
+            arch: x86
+          - os: windows-latest
+            python: "3.14"
+            arch: x86
           - os: macos-14
             python: "3.10"
             arch: arm64
@@ -78,7 +93,11 @@ jobs:
           if [[ "${{ matrix.os }}" == "macos-14" ]]; then
             echo "CIBW_BUILD=cp${PYVER_NO_DOT}-macosx_arm64" >> $GITHUB_ENV
           elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            echo "CIBW_BUILD=cp${PYVER_NO_DOT}-win_amd64" >> $GITHUB_ENV
+            if [[ "${{ matrix.arch }}" == "x86_64" ]]; then
+              echo "CIBW_BUILD=cp${PYVER_NO_DOT}-win_amd64" >> $GITHUB_ENV
+            elif [[ "${{ matrix.arch }}" == "x86" ]]; then
+              echo "CIBW_BUILD=cp${PYVER_NO_DOT}-win32" >> $GITHUB_ENV
+            fi
           else
             echo "CIBW_BUILD=cp${PYVER_NO_DOT}-manylinux_x86_64" >> $GITHUB_ENV
           fi
