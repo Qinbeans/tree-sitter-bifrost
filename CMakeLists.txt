@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 project(tree-sitter-bifrost
-        VERSION "0.1.1"
+        VERSION "0.1.2"
         DESCRIPTION "Bifrost grammar for tree-sitter"
         HOMEPAGE_URL "https://github.com/qinbeans/bifrost"
         LANGUAGES C)

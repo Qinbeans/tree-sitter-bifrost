@@ -10,7 +10,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tree-sitter-bifrost"
 description = "Bifrost grammar for tree-sitter"
-version = "0.1.1"
+version = "0.1.2"
 keywords = ["incremental", "parsing", "tree-sitter", "bifrost"]
 classifiers = [
   "Intended Audience :: Developers",

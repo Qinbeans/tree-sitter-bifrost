@@ -4,7 +4,7 @@ endif
 
 LANGUAGE_NAME := tree-sitter-bifrost
 HOMEPAGE_URL := https://github.com/qinbeans/tree-sitter-bifrost
-VERSION := 0.1.1
+VERSION := 0.1.2
 
 # repository
 SRC_DIR := src

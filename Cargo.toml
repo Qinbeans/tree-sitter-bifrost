@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-bifrost"
 description = "Bifrost grammar for tree-sitter"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Ryan Fong <ryan.lawrence.fong@gmail.com>"]
 license = "MIT"
 readme = "README.md"

@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-bifrost",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Bifrost grammar for tree-sitter",
   "repository": "https://github.com/qinbeans/tree-sitter-bifrost",
   "license": "MIT",
