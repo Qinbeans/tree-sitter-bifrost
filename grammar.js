@@ -35,7 +35,7 @@ const periodSep2 = (rule) => {
 }
 
 
-module.exports = grammar({
+export default grammar({
   name: "bifrost",
 
   conflicts: ($) => [

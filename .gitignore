@@ -45,5 +45,4 @@ zig-out/
 *.tar.gz
 *.tgz
 *.zip
-
-_binding.*
+*.jar

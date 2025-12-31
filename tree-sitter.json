@@ -6,13 +6,15 @@
       "camelcase": "Bifrost",
       "title": "Bifrost",
       "scope": "source.bifrost",
-      "file-types": ["bifrost"],
+      "file-types": [
+        "bifrost"
+      ],
       "injection-regex": "^bifrost$",
       "class-name": "TreeSitterBifrost"
     }
   ],
   "metadata": {
-    "version": "0.1.3",
+    "version": "0.1.4",
     "license": "MIT",
     "description": "Bifrost grammar for tree-sitter",
     "authors": [
@@ -23,10 +25,18 @@
       }
     ],
     "links": {
-      "repository": "https://github.com/Qinbeans/bifrost-lang"
+      "repository": "https://github.com/Qinbeans/bifrost",
+      "funding": ""
     }
   },
   "bindings": {
-    "python": true
+    "c": false,
+    "go": false,
+    "java": false,
+    "node": false,
+    "python": true,
+    "rust": false,
+    "swift": false,
+    "zig": false
   }
 }

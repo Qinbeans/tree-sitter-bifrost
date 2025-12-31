@@ -1,16 +1,11 @@
-[tool.setuptools]
-packages = ["tree_sitter_bifrost"]
-
-[tool.setuptools.package-dir]
-"" = "bindings/python"
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=62.4.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "tree-sitter-bifrost"
 description = "Bifrost grammar for tree-sitter"
-version = "0.1.3"
+version = "0.1.4"
 keywords = ["incremental", "parsing", "tree-sitter", "bifrost"]
 classifiers = [
   "Intended Audience :: Developers",
@@ -29,11 +24,6 @@ Homepage = "https://github.com/qinbeans/bifrost"
 [project.optional-dependencies]
 core = ["tree-sitter~=0.24"]
 
-[dependency-groups]
-dev = [
-    "cibuildwheel>=2.23.3",
-]
-
 [tool.cibuildwheel]
-build = "cp313-*"
+build = "cp310-*"
 build-frontend = "build"
