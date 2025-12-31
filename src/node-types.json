@@ -22,6 +22,14 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "import_assignment",
+          "named": true
+        },
+        {
+          "type": "struct_assignment",
+          "named": true
         }
       ]
     }
@@ -140,7 +148,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "expression",
@@ -218,7 +226,7 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "simple_identifier",
           "named": true
         }
       ]
@@ -253,6 +261,10 @@
       "required": false,
       "types": [
         {
+          "type": "child_annotation",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         }
@@ -264,13 +276,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
         {
           "type": "module",
           "named": true
@@ -315,6 +323,10 @@
           "named": true
         },
         {
+          "type": "if",
+          "named": true
+        },
+        {
           "type": "literal",
           "named": true
         },
@@ -323,11 +335,11 @@
           "named": true
         },
         {
-          "type": "record_expression",
+          "type": "unary_expression",
           "named": true
         },
         {
-          "type": "unary_expression",
+          "type": "while",
           "named": true
         }
       ]
@@ -471,7 +483,22 @@
     }
   },
   {
-    "type": "import_statement",
+    "type": "identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "simple_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "if",
     "named": true,
     "fields": {},
     "children": {
@@ -479,9 +506,28 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "block_expression",
           "named": true
         },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "import_assignment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
           "type": "string",
           "named": true
@@ -602,6 +648,10 @@
       "required": false,
       "types": [
         {
+          "type": "child_annotation",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         }
@@ -694,7 +744,11 @@
       "required": true,
       "types": [
         {
-          "type": "record_field",
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -726,29 +780,6 @@
         },
         {
           "type": "oct",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "optional_field",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "type_or_object",
           "named": true
         }
       ]
@@ -799,37 +830,6 @@
         {
           "type": "record_field",
           "named": true
-        },
-        {
-          "type": "spread_action",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "record_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "optional_field",
-          "named": true
-        },
-        {
-          "type": "record_expression",
-          "named": true
-        },
-        {
-          "type": "record_field",
-          "named": true
         }
       ]
     }
@@ -842,14 +842,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
         {
           "type": "identifier",
           "named": true
@@ -913,10 +905,6 @@
           "named": true
         },
         {
-          "type": "import_statement",
-          "named": true
-        },
-        {
           "type": "statement",
           "named": true
         }
@@ -975,6 +963,44 @@
         },
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_assignment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "struct_field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_field",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "local_function_definition",
+          "named": true
+        },
+        {
+          "type": "type_or_object",
           "named": true
         }
       ]
@@ -1129,6 +1155,25 @@
     }
   },
   {
+    "type": "while",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "!",
     "named": false
   },
@@ -1205,10 +1250,6 @@
     "named": false
   },
   {
-    "type": "<-",
-    "named": false
-  },
-  {
     "type": "<<",
     "named": false
   },
@@ -1242,14 +1283,6 @@
   },
   {
     "type": "?",
-    "named": false
-  },
-  {
-    "type": "Module",
-    "named": false
-  },
-  {
-    "type": "Record",
     "named": false
   },
   {
@@ -1309,7 +1342,15 @@
     "named": true
   },
   {
+    "type": "else",
+    "named": false
+  },
+  {
     "type": "exit",
+    "named": false
+  },
+  {
+    "type": "export",
     "named": false
   },
   {
@@ -1334,10 +1375,6 @@
   },
   {
     "type": "forall",
-    "named": false
-  },
-  {
-    "type": "from",
     "named": false
   },
   {
@@ -1381,8 +1418,8 @@
     "named": false
   },
   {
-    "type": "identifier",
-    "named": true
+    "type": "if",
+    "named": false
   },
   {
     "type": "import",
@@ -1406,6 +1443,10 @@
   },
   {
     "type": "match",
+    "named": false
+  },
+  {
+    "type": "module",
     "named": false
   },
   {
@@ -1461,12 +1502,20 @@
     "named": false
   },
   {
-    "type": "string",
+    "type": "simple_identifier",
+    "named": true
+  },
+  {
+    "type": "str",
     "named": false
   },
   {
     "type": "string",
     "named": true
+  },
+  {
+    "type": "struct",
+    "named": false
   },
   {
     "type": "super",
@@ -1494,6 +1543,10 @@
   },
   {
     "type": "u8",
+    "named": false
+  },
+  {
+    "type": "while",
     "named": false
   },
   {

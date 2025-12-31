@@ -7,13 +7,40 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
+
+/**
+ * Optionally separated by commas
+ * @param {Rule} rule
+ * @returns
+ */
+const commaSep = (rule) => {
+  return optional(commaSep1(rule));
+}
+
+/**
+ * One or more, separated by commas
+ * @param {Rule} rule
+ * @returns
+ */
+const commaSep1 = (rule) => {
+  return seq(rule, repeat(seq(",", rule)));
+}
+
+/** Separated by periods
+ * @param {Rule} rule
+ * @returns
+ */
+const periodSep2 = (rule) => {
+  return seq(rule, ".", rule, repeat(seq(".", rule)));
+}
+
+
 module.exports = grammar({
   name: "bifrost",
 
   rules: {
     source_file: ($) =>
       seq(
-        optional($.import_statement),
         repeat(choice($.statement, $.assignment, $.comment)),
       ),
 
@@ -34,11 +61,28 @@ module.exports = grammar({
         ),
       ),
 
-    module: ($) => seq("Module", "{", commaSep1($.record_field), "}"),
+    module: ($) => seq("module", $.identifier, "=", $.block_expression),
 
-    export_statement: ($) => seq("<-", "let", $.identifier, "=", $.module),
+    export_statement: ($) => seq("export", $.module),
 
-    import_statement: ($) => seq("import", $.identifier, "from", $.string),
+    import_assignment: ($) => seq("import", "(", $.string, ")"),
+
+    struct_field: ($) => seq(
+      "let",
+      $.identifier,
+      choice(
+        seq(":", $.type_or_object),
+        seq(
+          optional(
+            seq(":", $.type_or_object)
+          ),
+          "=",
+          $.local_function_definition
+        )
+      )
+    ),
+
+    struct_assignment: ($) => seq("struct", seq("{", commaSep($.struct_field), "}")),
 
     statement: ($) => choice($.export_statement, $.expression),
 
@@ -47,7 +91,7 @@ module.exports = grammar({
         "let",
         $.identifier,
         "=",
-        choice($.expression, $.block_expression, $.function_definition),
+        choice($.expression, $.block_expression, $.function_definition, $.import_assignment, $.struct_assignment),
       ),
 
     local_assignment: ($) =>
@@ -62,9 +106,8 @@ module.exports = grammar({
       seq(
         optional($.dependency_list),
         $.parameter_list,
-        ":",
-        $.type_or_object, // Return type
         "=>",
+        $.type_or_object, // Return type
         choice($.expression, $.block_expression),
       ),
 
@@ -72,17 +115,16 @@ module.exports = grammar({
       seq(
         optional($.local_dependency_list),
         $.parameter_list,
-        ":",
-        $.type_or_object, // Return type
         "=>",
+        $.type_or_object, // Return type
         choice($.expression, $.block_expression),
       ),
 
     dependency_list: ($) =>
-      seq("[", commaSep1(choice($.identifier, "this")), "]"),
+      seq("[", commaSep1(choice($.identifier, $.child_annotation, "this")), "]"),
 
     local_dependency_list: ($) =>
-      seq("[", commaSep1(choice($.identifier, "this", "super")), "]"),
+      seq("[", commaSep1(choice($.identifier, $.child_annotation, "this", "super")), "]"),
 
     parameter_list: ($) => seq("(", commaSep($.parameter), ")"),
 
@@ -108,7 +150,7 @@ module.exports = grammar({
           "f32",
           "f64",
           "bool",
-          "string",
+          "str",
           "h8",
           "h16",
           "h32",
@@ -159,7 +201,7 @@ module.exports = grammar({
     block_expression: ($) =>
       seq(
         "{",
-        commaSep1(choice($.expression, $.local_assignment, $.return_statement)),
+        commaSep(choice($.expression, $.local_assignment, $.return_statement)),
         "}",
       ),
 
@@ -167,6 +209,23 @@ module.exports = grammar({
 
     get_expression: ($) =>
       seq($.getter_owner, "[", choice($.expression, $.rest_of), "]"),
+
+
+    while: ($) =>
+      seq("while", $.expression, $.block_expression),
+
+    if: ($) =>
+      seq(
+        "if",
+        $.expression,
+        $.block_expression,
+        optional(
+          seq(
+            "else",
+            choice($.block_expression, $.if),
+          ),
+        ),
+      ),
 
     expression: ($) =>
       choice(
@@ -176,15 +235,16 @@ module.exports = grammar({
         $.function_call,
         $.literal,
         $.identifier,
-        $.record_expression,
         $.child_annotation,
         $.get_expression,
         $.forall,
+        $.while,
+        $.if,
         $.default_var,
       ),
 
     child_annotation: ($) =>
-      prec(2, periodSep2(choice($.identifier, $.function_call))),
+      prec(2, periodSep2(choice($.simple_identifier, $.function_call))),
 
     match_expression: ($) =>
       seq("match", $.expression, "{", commaSep1($.match_arm), "}"),
@@ -284,33 +344,15 @@ module.exports = grammar({
         commaSep(choice($.expression, $.spread_between, $.spread_action)),
         "]",
       ),
-    optional_field: ($) =>
-      seq($.identifier, "?", ":", choice($.expression, $.type_or_object)),
+
     record_field: ($) =>
-      seq(
-        $.identifier,
-        ":",
-        choice($.expression, $.type_or_object, $.function_definition),
-      ),
-    record_expression: ($) =>
-      prec.left(
-        1,
-        seq(
-          "Record",
-          "{",
-          commaSep1(choice($.record_field, $.optional_field)),
-          "}",
-          optional(
-            seq(choice("&", "|"), choice($.identifier, $.record_expression)),
-          ),
-        ),
-      ),
-    record: ($) =>
-      seq("#{", commaSep(choice($.record_field, $.spread_action)), "}"),
+      seq($.identifier, choice(":", seq("?", ":")), $.type_or_object),
+    record: ($) => seq("#{", commaSep($.record_field), "}"),
     tuple: ($) => seq("#(", commaSep($.expression), ")"),
     boolean: ($) => choice("true", "false"),
     string: ($) => /"[^"]*"/,
-    identifier: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,
+    simple_identifier: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,
+    identifier: ($) => $.simple_identifier,
     comment: ($) =>
       choice(
         token(seq("//", /.*/)),
@@ -318,15 +360,3 @@ module.exports = grammar({
       ),
   },
 });
-
-function commaSep(rule) {
-  return optional(commaSep1(rule));
-}
-
-function commaSep1(rule) {
-  return seq(rule, repeat(seq(",", rule)));
-}
-
-function periodSep2(rule) {
-  return seq(rule, ".", rule, repeat(seq(".", rule)));
-}
