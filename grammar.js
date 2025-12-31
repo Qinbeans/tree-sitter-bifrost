@@ -38,10 +38,17 @@ const periodSep2 = (rule) => {
 module.exports = grammar({
   name: "bifrost",
 
+  conflicts: ($) => [
+    [$.assignment, $.getter_owner],
+    [$.function_definition, $.getter_owner],
+    [$.expression, $.user_function_call],
+    [$.child_annotation, $.identifier],
+  ],
+
   rules: {
     source_file: ($) =>
       seq(
-        repeat(choice($.statement, $.assignment, $.comment)),
+        repeat(choice($.function_definition, $.assignment, $.comment)),
       ),
 
     list_type: ($) => seq($.type_or_object, "[]"),
@@ -91,7 +98,7 @@ module.exports = grammar({
         "let",
         $.identifier,
         "=",
-        choice($.expression, $.block_expression, $.function_definition, $.import_assignment, $.struct_assignment),
+        choice($.expression, $.block_expression, $.function_definition, $.struct_assignment),
       ),
 
     local_assignment: ($) =>

@@ -12,7 +12,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "statement"
+                "name": "function_definition"
               },
               {
                 "type": "SYMBOL",
@@ -336,10 +336,6 @@
             {
               "type": "SYMBOL",
               "name": "function_definition"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "import_assignment"
             },
             {
               "type": "SYMBOL",
@@ -2480,7 +2476,24 @@
       "value": "\\s"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "assignment",
+      "getter_owner"
+    ],
+    [
+      "function_definition",
+      "getter_owner"
+    ],
+    [
+      "expression",
+      "user_function_call"
+    ],
+    [
+      "child_annotation",
+      "identifier"
+    ]
+  ],
   "precedences": [],
   "externals": [],
   "inline": [],

@@ -24,10 +24,6 @@
           "named": true
         },
         {
-          "type": "import_assignment",
-          "named": true
-        },
-        {
           "type": "struct_assignment",
           "named": true
         }
@@ -272,21 +268,6 @@
     }
   },
   {
-    "type": "export_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "module",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "expression",
     "named": true,
     "fields": {},
@@ -521,21 +502,6 @@
     }
   },
   {
-    "type": "import_assignment",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "string",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "list",
     "named": true,
     "fields": {},
@@ -736,25 +702,6 @@
     }
   },
   {
-    "type": "module",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "block_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "number",
     "named": true,
     "fields": {},
@@ -905,7 +852,7 @@
           "named": true
         },
         {
-          "type": "statement",
+          "type": "function_definition",
           "named": true
         }
       ]
@@ -940,25 +887,6 @@
       "types": [
         {
           "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "export_statement",
           "named": true
         },
         {
@@ -1350,10 +1278,6 @@
     "named": false
   },
   {
-    "type": "export",
-    "named": false
-  },
-  {
     "type": "f32",
     "named": false
   },
@@ -1422,10 +1346,6 @@
     "named": false
   },
   {
-    "type": "import",
-    "named": false
-  },
-  {
     "type": "in",
     "named": false
   },
@@ -1443,10 +1363,6 @@
   },
   {
     "type": "match",
-    "named": false
-  },
-  {
-    "type": "module",
     "named": false
   },
   {
