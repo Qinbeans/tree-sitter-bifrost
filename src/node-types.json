@@ -1278,6 +1278,10 @@
     "named": false
   },
   {
+    "type": "export",
+    "named": false
+  },
+  {
     "type": "f32",
     "named": false
   },
@@ -1319,11 +1323,11 @@
   },
   {
     "type": "hex",
-    "named": false
+    "named": true
   },
   {
     "type": "hex",
-    "named": true
+    "named": false
   },
   {
     "type": "i16",
@@ -1343,6 +1347,10 @@
   },
   {
     "type": "if",
+    "named": false
+  },
+  {
+    "type": "import",
     "named": false
   },
   {
@@ -1387,30 +1395,14 @@
   },
   {
     "type": "oct",
-    "named": false
-  },
-  {
-    "type": "oct",
     "named": true
   },
   {
+    "type": "oct",
+    "named": false
+  },
+  {
     "type": "panic",
-    "named": false
-  },
-  {
-    "type": "print",
-    "named": false
-  },
-  {
-    "type": "println",
-    "named": false
-  },
-  {
-    "type": "read",
-    "named": false
-  },
-  {
-    "type": "readln",
     "named": false
   },
   {

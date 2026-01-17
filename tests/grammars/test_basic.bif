@@ -1,0 +1,11 @@
+let io = import("std:io")
+
+let funny = () => null {
+    io.print("This is funny!")
+}
+
+
+let main = [funny, io.print]() => null {
+    let x = 42
+    io.print(x)
+}

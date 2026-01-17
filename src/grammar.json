@@ -140,40 +140,6 @@
         }
       ]
     },
-    "export_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "export"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "module"
-        }
-      ]
-    },
-    "import_assignment": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "import"
-        },
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string"
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        }
-      ]
-    },
     "struct_field": {
       "type": "SEQ",
       "members": [
@@ -297,10 +263,6 @@
     "statement": {
       "type": "CHOICE",
       "members": [
-        {
-          "type": "SYMBOL",
-          "name": "export_statement"
-        },
         {
           "type": "SYMBOL",
           "name": "expression"
@@ -860,22 +822,6 @@
       "members": [
         {
           "type": "STRING",
-          "value": "print"
-        },
-        {
-          "type": "STRING",
-          "value": "println"
-        },
-        {
-          "type": "STRING",
-          "value": "read"
-        },
-        {
-          "type": "STRING",
-          "value": "readln"
-        },
-        {
-          "type": "STRING",
           "value": "hex"
         },
         {
@@ -901,6 +847,14 @@
         {
           "type": "STRING",
           "value": "len"
+        },
+        {
+          "type": "STRING",
+          "value": "export"
+        },
+        {
+          "type": "STRING",
+          "value": "import"
         }
       ]
     },
@@ -930,25 +884,29 @@
       ]
     },
     "return_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "return"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "expression"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "return"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "expression"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "block_expression": {
       "type": "SEQ",
@@ -958,63 +916,24 @@
           "value": "{"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "expression"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "local_assignment"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "return_statement"
-                    }
-                  ]
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "expression"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "local_assignment"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "return_statement"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "local_assignment"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "return_statement"
+              }
+            ]
+          }
         },
         {
           "type": "STRING",

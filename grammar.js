@@ -70,10 +70,6 @@ export default grammar({
 
     module: ($) => seq("module", $.identifier, "=", $.block_expression),
 
-    export_statement: ($) => seq("export", $.module),
-
-    import_assignment: ($) => seq("import", "(", $.string, ")"),
-
     struct_field: ($) => seq(
       "let",
       $.identifier,
@@ -91,7 +87,7 @@ export default grammar({
 
     struct_assignment: ($) => seq("struct", seq("{", commaSep($.struct_field), "}")),
 
-    statement: ($) => choice($.export_statement, $.expression),
+    statement: ($) => choice($.expression),
 
     assignment: ($) =>
       seq(
@@ -187,10 +183,6 @@ export default grammar({
 
     builtin: ($) =>
       choice(
-        "print",
-        "println",
-        "read",
-        "readln",
         "hex",
         "oct",
         "bin",
@@ -198,17 +190,19 @@ export default grammar({
         "panic",
         "assert",
         "len",
+        "export",
+        "import",
       ),
 
     forall: ($) =>
       seq("forall", $.identifier, "in", $.expression, $.block_expression),
 
-    return_statement: ($) => seq("return", optional($.expression)),
+    return_statement: ($) => prec.right(seq("return", optional($.expression))),
 
     block_expression: ($) =>
       seq(
         "{",
-        commaSep(choice($.expression, $.local_assignment, $.return_statement)),
+        repeat(choice($.expression, $.local_assignment, $.return_statement)),
         "}",
       ),
 
