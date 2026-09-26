@@ -22,8 +22,13 @@ jobs:
     steps:
       - name: Send releases-changed to Qinbeans/mlir-python
         env:
-          GH_TOKEN: ${{ secrets.INDEX_DISPATCH_TOKEN }}
+          TOKEN: ${{ secrets.INDEX_DISPATCH_TOKEN }}
         run: |
+          # A pasted token often carries a trailing newline, which is not
+          # valid in an HTTP header.
+          GH_TOKEN=$(printf '%s' "$TOKEN" | tr -d '[:space:]')
+          if [ -n "$GH_TOKEN" ]; then echo "::add-mask::$GH_TOKEN"; fi
+          export GH_TOKEN
           if [ -z "$GH_TOKEN" ]; then
             echo "::warning::INDEX_DISPATCH_TOKEN is not set; the package index will update on its hourly schedule"
             exit 0
