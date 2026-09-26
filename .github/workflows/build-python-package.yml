@@ -164,3 +164,9 @@ jobs:
           overwrite_files: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  notify-index:
+    name: Update the package index
+    needs: release
+    uses: ./.github/workflows/notify-index.yml
+    secrets: inherit
