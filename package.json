@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-bifrost",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Bifrost grammar for tree-sitter",
   "type": "module",
   "repository": {

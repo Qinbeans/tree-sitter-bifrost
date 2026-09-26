@@ -42,7 +42,6 @@ export default grammar({
     [$.assignment, $.getter_owner],
     [$.function_definition, $.getter_owner],
     [$.expression, $.user_function_call],
-    [$.child_annotation, $.identifier],
   ],
 
   rules: {
@@ -242,6 +241,7 @@ export default grammar({
         $.while,
         $.if,
         $.default_var,
+        $.parenthesized_expression,
       ),
 
     child_annotation: ($) =>
@@ -261,39 +261,41 @@ export default grammar({
 
     condition: ($) => $.expression,
 
+    parenthesized_expression: ($) => seq("(", $.expression, ")"),
+
+    // Higher binds tighter, as in C (with `**` above the unary operators, as
+    // in Python, so `-a ** b` is `-(a ** b)`).
     binary_expression: ($) =>
       choice(
         ...[
-          // Power operator
-          ["**", 4],
-          // Multiplication, division, modulo
-          ["*", 3],
-          ["/", 3],
-          ["%", 3],
-          // Addition and subtraction
-          ["+", 2],
-          ["-", 2],
-          // Bitwise shift left and right
-          ["<<", 5],
-          [">>", 5],
-          // Comparisons: less-than and greater-than
-          ["<", 6],
-          ["<=", 6],
-          [">", 6],
-          [">=", 6],
-          // Comparisons: equal and not equal
-          ["==", 7],
-          ["!=", 7],
-          // Bitwise AND
-          ["&", 8],
-          // Bitwise exclusive OR (XOR)
-          ["^", 9],
-          // Bitwise inclusive (normal) OR
-          ["|", 10],
-          // Logical AND
-          ["&&", 11],
           // Logical OR
-          ["||", 12],
+          ["||", 1],
+          // Logical AND
+          ["&&", 2],
+          // Bitwise inclusive (normal) OR
+          ["|", 3],
+          // Bitwise exclusive OR (XOR)
+          ["^", 4],
+          // Bitwise AND
+          ["&", 5],
+          // Comparisons: equal and not equal
+          ["==", 6],
+          ["!=", 6],
+          // Comparisons: less-than and greater-than
+          ["<", 7],
+          ["<=", 7],
+          [">", 7],
+          [">=", 7],
+          // Bitwise shift left and right
+          ["<<", 8],
+          [">>", 8],
+          // Addition and subtraction
+          ["+", 9],
+          ["-", 9],
+          // Multiplication, division, modulo
+          ["*", 10],
+          ["/", 10],
+          ["%", 10],
         ].map(([operator, precedence]) =>
           prec.left(
             precedence,
@@ -304,11 +306,20 @@ export default grammar({
             ),
           ),
         ),
+        // Power is right-associative: `a ** b ** c` is `a ** (b ** c)`.
+        prec.right(
+          13,
+          seq(
+            field("left", $.expression),
+            field("operator", "**"),
+            field("right", $.expression),
+          ),
+        ),
       ),
 
     unary_expression: ($) =>
       prec(
-        13,
+        12,
         seq(
           field("operator", choice("-", "!")),
           field("argument", $.expression),
@@ -353,7 +364,9 @@ export default grammar({
     boolean: ($) => choice("true", "false"),
     string: ($) => /"[^"]*"/,
     simple_identifier: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,
-    identifier: ($) => $.simple_identifier,
+    // Above child_annotation's segments, so `a.f(x)` is a call rather than
+    // `a.f` followed by the parenthesized `(x)`.
+    identifier: ($) => prec(3, $.simple_identifier),
     comment: ($) =>
       choice(
         token(seq("//", /.*/)),

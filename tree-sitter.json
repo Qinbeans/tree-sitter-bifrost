@@ -7,14 +7,14 @@
       "title": "Bifrost",
       "scope": "source.bifrost",
       "file-types": [
-        "bifrost"
+        "bif"
       ],
       "injection-regex": "^bifrost$",
       "class-name": "TreeSitterBifrost"
     }
   ],
   "metadata": {
-    "version": "0.1.5",
+    "version": "0.1.6",
     "license": "MIT",
     "description": "Bifrost grammar for tree-sitter",
     "authors": [

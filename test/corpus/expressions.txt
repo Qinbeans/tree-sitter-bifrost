@@ -1,0 +1,365 @@
+==================
+Multiplication binds tighter than addition
+==================
+
+let a = 1 + 2 * 3
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (binary_expression
+        (expression
+          (literal
+            (number
+              (integer))))
+        (expression
+          (binary_expression
+            (expression
+              (literal
+                (number
+                  (integer))))
+            (expression
+              (literal
+                (number
+                  (integer))))))))))
+
+==================
+Comparison binds looser than arithmetic
+==================
+
+let a = x + 1 < y - 1
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (binary_expression
+        (expression
+          (binary_expression
+            (expression
+              (identifier
+                (simple_identifier)))
+            (expression
+              (literal
+                (number
+                  (integer))))))
+        (expression
+          (binary_expression
+            (expression
+              (identifier
+                (simple_identifier)))
+            (expression
+              (literal
+                (number
+                  (integer))))))))))
+
+==================
+Logical and binds tighter than logical or, looser than comparison
+==================
+
+let a = x < 0 || y == 1 && z
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (binary_expression
+        (expression
+          (binary_expression
+            (expression
+              (identifier
+                (simple_identifier)))
+            (expression
+              (literal
+                (number
+                  (integer))))))
+        (expression
+          (binary_expression
+            (expression
+              (binary_expression
+                (expression
+                  (identifier
+                    (simple_identifier)))
+                (expression
+                  (literal
+                    (number
+                      (integer))))))
+            (expression
+              (identifier
+                (simple_identifier)))))))))
+
+==================
+Shifts bind looser than addition
+==================
+
+let a = 1 << 2 + 3
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (binary_expression
+        (expression
+          (literal
+            (number
+              (integer))))
+        (expression
+          (binary_expression
+            (expression
+              (literal
+                (number
+                  (integer))))
+            (expression
+              (literal
+                (number
+                  (integer))))))))))
+
+==================
+Power is right-associative and binds tighter than unary minus
+==================
+
+let a = -2 ** 3 ** 2
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (unary_expression
+        (expression
+          (binary_expression
+            (expression
+              (literal
+                (number
+                  (integer))))
+            (expression
+              (binary_expression
+                (expression
+                  (literal
+                    (number
+                      (integer))))
+                (expression
+                  (literal
+                    (number
+                      (integer))))))))))))
+
+==================
+Subtraction is left-associative
+==================
+
+let a = 1 - 2 - 3
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (binary_expression
+        (expression
+          (binary_expression
+            (expression
+              (literal
+                (number
+                  (integer))))
+            (expression
+              (literal
+                (number
+                  (integer))))))
+        (expression
+          (literal
+            (number
+              (integer))))))))
+
+==================
+Parentheses override precedence
+==================
+
+let a = (1 + 2) * 3
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (binary_expression
+        (expression
+          (parenthesized_expression
+            (expression
+              (binary_expression
+                (expression
+                  (literal
+                    (number
+                      (integer))))
+                (expression
+                  (literal
+                    (number
+                      (integer))))))))
+        (expression
+          (literal
+            (number
+              (integer))))))))
+
+==================
+Negated parenthesized comparison
+==================
+
+let a = !(x == -5)
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (unary_expression
+        (expression
+          (parenthesized_expression
+            (expression
+              (binary_expression
+                (expression
+                  (identifier
+                    (simple_identifier)))
+                (expression
+                  (unary_expression
+                    (expression
+                      (literal
+                        (number
+                          (integer))))))))))))))
+
+==================
+Parenthesized statement after a call in a block
+==================
+
+let f = () => null {
+    g(1)
+    (x)
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (expression
+          (function_call
+            (user_function_call
+              (identifier
+                (simple_identifier))
+              (expression
+                (literal
+                  (number
+                    (integer)))))))
+        (expression
+          (parenthesized_expression
+            (expression
+              (identifier
+                (simple_identifier)))))))))
+
+==================
+Dotted call with several arguments
+==================
+
+let f = () => null {
+    raylib.InitWindow(800, 600, "title")
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (expression
+          (child_annotation
+            (simple_identifier)
+            (function_call
+              (user_function_call
+                (identifier
+                  (simple_identifier))
+                (expression
+                  (literal
+                    (number
+                      (integer))))
+                (expression
+                  (literal
+                    (number
+                      (integer))))
+                (expression
+                  (literal
+                    (string)))))))))))
+
+==================
+Field of a dotted call's result
+==================
+
+let a = raylib.Color(0, 0, 0, 255).r + 1
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (binary_expression
+        (expression
+          (child_annotation
+            (simple_identifier)
+            (function_call
+              (user_function_call
+                (identifier
+                  (simple_identifier))
+                (expression
+                  (literal
+                    (number
+                      (integer))))
+                (expression
+                  (literal
+                    (number
+                      (integer))))
+                (expression
+                  (literal
+                    (number
+                      (integer))))
+                (expression
+                  (literal
+                    (number
+                      (integer))))))
+            (simple_identifier)))
+        (expression
+          (literal
+            (number
+              (integer))))))))
