@@ -1,0 +1,129 @@
+==================
+Async functions and await
+==================
+
+let f = [http.sleep] async (ms: i64) => null {
+    await http.sleep(ms)
+    let x = await g(1) + 2
+}
+
+let h = [] async () => i64 await g(1)
+
+let k = [run] () => null {
+    run([a] async (x: i64) => null { await a(x) })
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list
+        (child_annotation
+          (simple_identifier)
+          (simple_identifier)))
+      (parameter_list
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type))))
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (expression
+          (await_expression
+            (expression
+              (child_annotation
+                (simple_identifier)
+                (function_call
+                  (user_function_call
+                    (identifier
+                      (simple_identifier))
+                    (expression
+                      (identifier
+                        (simple_identifier)))))))))
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (binary_expression
+              (expression
+                (await_expression
+                  (expression
+                    (function_call
+                      (user_function_call
+                        (identifier
+                          (simple_identifier))
+                        (expression
+                          (literal
+                            (number
+                              (integer)))))))))
+              (expression
+                (literal
+                  (number
+                    (integer))))))))))
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list)
+      (parameter_list)
+      (type_or_object
+        (type))
+      (expression
+        (await_expression
+          (expression
+            (function_call
+              (user_function_call
+                (identifier
+                  (simple_identifier))
+                (expression
+                  (literal
+                    (number
+                      (integer)))))))))))
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list
+        (identifier
+          (simple_identifier)))
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (expression
+          (function_call
+            (user_function_call
+              (identifier
+                (simple_identifier))
+              (expression
+                (local_function_definition
+                  (local_dependency_list
+                    (identifier
+                      (simple_identifier)))
+                  (parameter_list
+                    (parameter
+                      (identifier
+                        (simple_identifier))
+                      (type_or_object
+                        (type))))
+                  (type_or_object
+                    (type
+                      (null)))
+                  (block_expression
+                    (expression
+                      (await_expression
+                        (expression
+                          (function_call
+                            (user_function_call
+                              (identifier
+                                (simple_identifier))
+                              (expression
+                                (identifier
+                                  (simple_identifier))))))))))))))))))

@@ -235,3 +235,51 @@ let f = (ctx: mem.Weak[Context]) => null {
           (expression
             (identifier
               (simple_identifier))))))))
+
+==================
+Writing the value a guard holds
+==================
+
+let f = [] () => null {
+    let g <- counter
+    g = g + 1
+    g -> counter
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list)
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (lock
+          (identifier
+            (simple_identifier))
+          (expression
+            (identifier
+              (simple_identifier))))
+        (guard_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (binary_expression
+              (expression
+                (identifier
+                  (simple_identifier)))
+              (expression
+                (literal
+                  (number
+                    (integer)))))))
+        (release
+          (identifier
+            (simple_identifier))
+          (expression
+            (identifier
+              (simple_identifier))))))))

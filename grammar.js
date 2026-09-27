@@ -129,6 +129,7 @@ export default grammar({
         1,
         seq(
           optional($.dependency_list),
+          optional(field("async", "async")),
           $.parameter_list,
           "=>",
           $.type_or_object, // Return type
@@ -142,6 +143,7 @@ export default grammar({
       prec.right(
         seq(
           optional($.local_dependency_list),
+          optional(field("async", "async")),
           $.parameter_list,
           "=>",
           $.type_or_object, // Return type
@@ -251,6 +253,7 @@ export default grammar({
             $.lock,
             $.release,
             $.field_assignment,
+            $.guard_assignment,
           ),
         ),
         "}",
@@ -273,6 +276,10 @@ export default grammar({
     // `guard.counter = value`: fields change only through a guard.
     field_assignment: ($) =>
       seq(field("target", $.child_annotation), "=", field("value", $.expression)),
+
+    // `guard = guard + 1`: write the whole value a guard holds, e.g. a mem.Atomic[i64].
+    guard_assignment: ($) =>
+      seq(field("guard", $.identifier), "=", field("value", $.expression)),
 
     // `x[i]` binds tightest (`a + b[i]` is `a + (b[i])`), and never means `x`
     // followed by a lambda's `[deps]`.
@@ -303,6 +310,7 @@ export default grammar({
         $.match_expression,
         $.binary_expression,
         $.unary_expression,
+        $.await_expression,
         $.function_call,
         $.literal,
         $.identifier,
@@ -397,6 +405,9 @@ export default grammar({
           field("argument", $.expression),
         ),
       ),
+
+    // `await http.sleep(ms)`: wait for a call that pauses, in an async function.
+    await_expression: ($) => prec(12, seq("await", field("value", $.expression))),
 
     function_call: ($) => choice($.builtin_call, $.user_function_call),
 
