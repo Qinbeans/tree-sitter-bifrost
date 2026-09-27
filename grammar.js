@@ -433,8 +433,8 @@ export default grammar({
         "]",
       ),
 
-    record_field: ($) =>
-      seq($.identifier, choice(":", seq("?", ":")), $.type_or_object),
+    // `#{id: 7, name: "user 7"}`: a record, a value with named fields.
+    record_field: ($) => seq(field("name", $.identifier), ":", field("value", $.expression)),
     record: ($) => seq("#{", commaSep($.record_field), "}"),
     tuple: ($) => seq("#(", commaSep($.expression), ")"),
     boolean: ($) => choice("true", "false"),

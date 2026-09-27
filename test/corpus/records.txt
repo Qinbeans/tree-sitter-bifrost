@@ -1,0 +1,80 @@
+==================
+Record values
+==================
+
+let f = [] () => null {
+    http.json(ctx, 200, #{message: "hello", name: http.param(ctx, "name"), user: #{id: 7}})
+    let empty = #{}
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list)
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (expression
+          (child_annotation
+            (simple_identifier)
+            (function_call
+              (user_function_call
+                (identifier
+                  (simple_identifier))
+                (expression
+                  (identifier
+                    (simple_identifier)))
+                (expression
+                  (literal
+                    (number
+                      (integer))))
+                (expression
+                  (literal
+                    (record
+                      (record_field
+                        (identifier
+                          (simple_identifier))
+                        (expression
+                          (literal
+                            (string))))
+                      (record_field
+                        (identifier
+                          (simple_identifier))
+                        (expression
+                          (child_annotation
+                            (simple_identifier)
+                            (function_call
+                              (user_function_call
+                                (identifier
+                                  (simple_identifier))
+                                (expression
+                                  (identifier
+                                    (simple_identifier)))
+                                (expression
+                                  (literal
+                                    (string))))))))
+                      (record_field
+                        (identifier
+                          (simple_identifier))
+                        (expression
+                          (literal
+                            (record
+                              (record_field
+                                (identifier
+                                  (simple_identifier))
+                                (expression
+                                  (literal
+                                    (number
+                                      (integer))))))))))))))))
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (literal
+              (record))))))))
