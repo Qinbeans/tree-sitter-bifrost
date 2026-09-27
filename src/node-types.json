@@ -469,6 +469,36 @@
     }
   },
   {
+    "type": "generic_type",
+    "named": true,
+    "fields": {
+      "argument": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "type_or_object",
+            "named": true
+          }
+        ]
+      },
+      "base": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "child_annotation",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "get_expression",
     "named": true,
     "fields": {},
@@ -624,7 +654,18 @@
   {
     "type": "local_assignment",
     "named": true,
-    "fields": {},
+    "fields": {
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_or_object",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -874,32 +915,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "pointer_type",
-    "named": true,
-    "fields": {
-      "guard": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "target": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type_or_object",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -1154,10 +1169,6 @@
           "named": true
         },
         {
-          "type": "pointer_type",
-          "named": true
-        },
-        {
           "type": "tuple_type",
           "named": true
         }
@@ -1174,6 +1185,10 @@
       "types": [
         {
           "type": "child_annotation",
+          "named": true
+        },
+        {
+          "type": "generic_type",
           "named": true
         },
         {
@@ -1588,10 +1603,6 @@
   },
   {
     "type": "panic",
-    "named": false
-  },
-  {
-    "type": "ptr",
     "named": false
   },
   {

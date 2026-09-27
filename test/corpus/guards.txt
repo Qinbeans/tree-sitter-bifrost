@@ -2,7 +2,7 @@
 Lock, access through the guard, release
 ==================
 
-let draw = (ctx: ptr[] Context) => null {
+let draw = (ctx: mem.Shared[Context]) => null {
     let guard <- ctx
     guard.counter = guard.counter + 1
     guard -> ctx
@@ -20,11 +20,13 @@ let draw = (ctx: ptr[] Context) => null {
           (identifier
             (simple_identifier))
           (type_or_object
-            (type
-              (pointer_type
-                (type_or_object
-                  (identifier
-                    (simple_identifier))))))))
+            (generic_type
+              (child_annotation
+                (simple_identifier)
+                (simple_identifier))
+              (type_or_object
+                (identifier
+                  (simple_identifier)))))))
       (type_or_object
         (type
           (null)))
@@ -57,10 +59,59 @@ let draw = (ctx: ptr[] Context) => null {
               (simple_identifier))))))))
 
 ==================
-Pointer types with guards
+Typed local holding a shared value
 ==================
 
-let close = (file: ptr[own, null] File) => null {}
+let main = () => null {
+    let ctx: mem.Shared[Context] = Context.new()
+    let n: i32 = 5
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (generic_type
+              (child_annotation
+                (simple_identifier)
+                (simple_identifier))
+              (type_or_object
+                (identifier
+                  (simple_identifier)))))
+          (expression
+            (child_annotation
+              (simple_identifier)
+              (function_call
+                (user_function_call
+                  (identifier
+                    (simple_identifier)))))))
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type))
+          (expression
+            (literal
+              (number
+                (integer)))))))))
+
+==================
+Generic types with several arguments, and lists of them
+==================
+
+let f = (m: Map[str, i32], l: mem.Shared[i32][]) => null {}
 
 ---
 
@@ -74,15 +125,26 @@ let close = (file: ptr[own, null] File) => null {}
           (identifier
             (simple_identifier))
           (type_or_object
+            (generic_type
+              (identifier
+                (simple_identifier))
+              (type_or_object
+                (type))
+              (type_or_object
+                (type)))))
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
             (type
-              (pointer_type
-                (identifier
-                  (simple_identifier))
-                (identifier
-                  (simple_identifier))
+              (list_type
                 (type_or_object
-                  (identifier
-                    (simple_identifier))))))))
+                  (generic_type
+                    (child_annotation
+                      (simple_identifier)
+                      (simple_identifier))
+                    (type_or_object
+                      (type)))))))))
       (type_or_object
         (type
           (null)))

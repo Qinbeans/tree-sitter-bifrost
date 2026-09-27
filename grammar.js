@@ -110,6 +110,7 @@ export default grammar({
       seq(
         "let",
         $.identifier,
+        optional(seq(":", field("type", $.type_or_object))),
         "=",
         choice($.expression, $.block_expression, $.local_function_definition),
       ),
@@ -152,7 +153,6 @@ export default grammar({
           $.list_type,
           $.tuple_type,
           $.function_type,
-          $.pointer_type,
           "i8",
           "i16",
           "i32",
@@ -181,8 +181,17 @@ export default grammar({
         ),
       ),
 
+    // `mem.Shared[Context]`: a type applied to type arguments.
+    generic_type: ($) =>
+      seq(
+        field("base", choice($.identifier, $.child_annotation)),
+        "[",
+        commaSep1(field("argument", $.type_or_object)),
+        "]",
+      ),
+
     type_or_object: ($) =>
-      prec(2, choice($.type, $.identifier, $.child_annotation)),
+      prec(2, choice($.type, $.generic_type, $.identifier, $.child_annotation)),
 
     ellipsis: ($) => "...",
 
@@ -237,12 +246,6 @@ export default grammar({
     // `guard.counter = value`: fields change only through a guard.
     field_assignment: ($) =>
       seq(field("target", $.child_annotation), "=", field("value", $.expression)),
-
-    // `ptr[] Context`: a pointer, with its guards in brackets (`ptr[own] File`).
-    pointer_type: ($) =>
-      prec.right(
-        seq("ptr", "[", commaSep(field("guard", $.identifier)), "]", field("target", $.type_or_object)),
-      ),
 
     getter_owner: ($) => $.expression,
 
