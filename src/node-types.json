@@ -707,6 +707,32 @@
     }
   },
   {
+    "type": "named_argument",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "number",
     "named": true,
     "fields": {},
@@ -930,7 +956,18 @@
   {
     "type": "struct_field",
     "named": true,
-    "fields": {},
+    "fields": {
+      "modifier": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "static",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -1082,6 +1119,10 @@
           },
           {
             "type": "expression",
+            "named": true
+          },
+          {
+            "type": "named_argument",
             "named": true
           }
         ]
@@ -1428,6 +1469,10 @@
   {
     "type": "simple_identifier",
     "named": true
+  },
+  {
+    "type": "static",
+    "named": false
   },
   {
     "type": "str",

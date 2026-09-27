@@ -1,0 +1,110 @@
+==================
+Object with fields and a static function
+==================
+
+let Context = struct {
+    let width: i32,
+    static let new = [] () => Context {
+        return Context(width: 800)
+    }
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (struct_assignment
+      (struct_field
+        (identifier
+          (simple_identifier))
+        (type_or_object
+          (type)))
+      (struct_field
+        (identifier
+          (simple_identifier))
+        (local_function_definition
+          (local_dependency_list)
+          (parameter_list)
+          (type_or_object
+            (identifier
+              (simple_identifier)))
+          (block_expression
+            (return_statement
+              (expression
+                (function_call
+                  (user_function_call
+                    (identifier
+                      (simple_identifier))
+                    (named_argument
+                      (identifier
+                        (simple_identifier))
+                      (expression
+                        (literal
+                          (number
+                            (integer)))))))))))))))
+
+==================
+Static function in a dependency list
+==================
+
+let main = [Context.new] () => null {
+    let ctx = Context.new()
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list
+        (child_annotation
+          (simple_identifier)
+          (simple_identifier)))
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (child_annotation
+              (simple_identifier)
+              (function_call
+                (user_function_call
+                  (identifier
+                    (simple_identifier)))))))))))
+
+==================
+Named and positional arguments
+==================
+
+let a = f(1, size: 2)
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (function_call
+        (user_function_call
+          (identifier
+            (simple_identifier))
+          (expression
+            (literal
+              (number
+                (integer))))
+          (named_argument
+            (identifier
+              (simple_identifier))
+            (expression
+              (literal
+                (number
+                  (integer))))))))))

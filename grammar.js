@@ -76,7 +76,10 @@ export default grammar({
 
     module: ($) => seq("module", $.identifier, "=", $.block_expression),
 
+    // `let x: T` is a stored field; `let f = (...) => ...` a function of the
+    // object; `static let f = ...` one called on the type (`Context.new()`).
     struct_field: ($) => seq(
+      optional(field("modifier", "static")),
       "let",
       $.identifier,
       choice(
@@ -130,10 +133,11 @@ export default grammar({
       ),
 
     dependency_list: ($) =>
-      seq("[", commaSep1(choice($.identifier, $.child_annotation, "this")), "]"),
+      // `[]` is allowed and means the same as no list: no dependencies.
+      seq("[", commaSep(choice($.identifier, $.child_annotation, "this")), "]"),
 
     local_dependency_list: ($) =>
-      seq("[", commaSep1(choice($.identifier, $.child_annotation, "this", "super")), "]"),
+      seq("[", commaSep(choice($.identifier, $.child_annotation, "this", "super")), "]"),
 
     parameter_list: ($) => seq("(", commaSep($.parameter), ")"),
 
@@ -344,8 +348,12 @@ export default grammar({
     user_function_call: ($) =>
       seq(
         field("function", $.identifier),
-        field("arguments", seq("(", commaSep($.expression), ")")),
+        field("arguments", seq("(", commaSep(choice($.expression, $.named_argument)), ")")),
       ),
+
+    // `Context(window_width: 800)`: an argument given by name.
+    named_argument: ($) =>
+      seq(field("name", $.identifier), ":", field("value", $.expression)),
 
     literal: ($) =>
       choice($.number, $.boolean, $.string, $.list, $.tuple, $.record, $.null),
