@@ -341,6 +341,10 @@
           "named": true
         },
         {
+          "type": "local_function_definition",
+          "named": true
+        },
+        {
           "type": "match_expression",
           "named": true
         },
@@ -462,12 +466,16 @@
     "type": "function_type",
     "named": true,
     "fields": {
-      "parameters": {
-        "multiple": false,
-        "required": true,
+      "parameter": {
+        "multiple": true,
+        "required": false,
         "types": [
           {
-            "type": "parameter_list",
+            "type": "parameter",
+            "named": true
+          },
+          {
+            "type": "type_or_object",
             "named": true
           }
         ]
@@ -696,10 +704,6 @@
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "local_function_definition",
           "named": true
         }
       ]
@@ -1556,10 +1560,6 @@
   {
     "type": "float",
     "named": true
-  },
-  {
-    "type": "fn",
-    "named": false
   },
   {
     "type": "forall",

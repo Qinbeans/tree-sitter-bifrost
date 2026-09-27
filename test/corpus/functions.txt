@@ -1,0 +1,236 @@
+==================
+Function types, with and without parameter names
+==================
+
+let apply = [] (f: (x: i32) => i32, g: (i32, str) => null) => i32 f(1)
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list)
+      (parameter_list
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type
+              (function_type
+                (parameter
+                  (identifier
+                    (simple_identifier))
+                  (type_or_object
+                    (type)))
+                (type_or_object
+                  (type))))))
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type
+              (function_type
+                (type_or_object
+                  (type))
+                (type_or_object
+                  (type))
+                (type_or_object
+                  (type
+                    (null))))))))
+      (type_or_object
+        (type))
+      (expression
+        (function_call
+          (user_function_call
+            (identifier
+              (simple_identifier))
+            (expression
+              (literal
+                (number
+                  (integer))))))))))
+
+==================
+Named function as a value
+==================
+
+let main = [apply, double] () => null {
+    let g: (i32) => i32 = double
+    apply(double, 3)
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list
+        (identifier
+          (simple_identifier))
+        (identifier
+          (simple_identifier)))
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type
+              (function_type
+                (type_or_object
+                  (type))
+                (type_or_object
+                  (type)))))
+          (expression
+            (identifier
+              (simple_identifier))))
+        (expression
+          (function_call
+            (user_function_call
+              (identifier
+                (simple_identifier))
+              (expression
+                (identifier
+                  (simple_identifier)))
+              (expression
+                (literal
+                  (number
+                    (integer)))))))))))
+
+==================
+Lambdas as locals and arguments
+==================
+
+let main = [http.get] () => null {
+    let h = [] (x: i32) => i32 x * 2
+    http.get(app, "/", [http.text] (ctx: http.Context) => null {
+        http.text(ctx, 200, "hi")
+    })
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list
+        (child_annotation
+          (simple_identifier)
+          (simple_identifier)))
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (local_function_definition
+              (local_dependency_list)
+              (parameter_list
+                (parameter
+                  (identifier
+                    (simple_identifier))
+                  (type_or_object
+                    (type))))
+              (type_or_object
+                (type))
+              (expression
+                (binary_expression
+                  (expression
+                    (identifier
+                      (simple_identifier)))
+                  (expression
+                    (literal
+                      (number
+                        (integer)))))))))
+        (expression
+          (child_annotation
+            (simple_identifier)
+            (function_call
+              (user_function_call
+                (identifier
+                  (simple_identifier))
+                (expression
+                  (identifier
+                    (simple_identifier)))
+                (expression
+                  (literal
+                    (string)))
+                (expression
+                  (local_function_definition
+                    (local_dependency_list
+                      (child_annotation
+                        (simple_identifier)
+                        (simple_identifier)))
+                    (parameter_list
+                      (parameter
+                        (identifier
+                          (simple_identifier))
+                        (type_or_object
+                          (child_annotation
+                            (simple_identifier)
+                            (simple_identifier)))))
+                    (type_or_object
+                      (type
+                        (null)))
+                    (block_expression
+                      (expression
+                        (child_annotation
+                          (simple_identifier)
+                          (function_call
+                            (user_function_call
+                              (identifier
+                                (simple_identifier))
+                              (expression
+                                (identifier
+                                  (simple_identifier)))
+                              (expression
+                                (literal
+                                  (number
+                                    (integer))))
+                              (expression
+                                (literal
+                                  (string))))))))))))))))))
+
+==================
+Indexing binds tighter than operators
+==================
+
+let f = [] () => i32 a + b[1]
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list)
+      (parameter_list)
+      (type_or_object
+        (type))
+      (expression
+        (binary_expression
+          (expression
+            (identifier
+              (simple_identifier)))
+          (expression
+            (get_expression
+              (getter_owner
+                (expression
+                  (identifier
+                    (simple_identifier))))
+              (expression
+                (literal
+                  (number
+                    (integer)))))))))))

@@ -46,9 +46,11 @@ export default grammar({
   word: ($) => $.simple_identifier,
 
   conflicts: ($) => [
-    [$.assignment, $.getter_owner],
-    [$.function_definition, $.getter_owner],
     [$.expression, $.user_function_call],
+    // `let f = [...] (...) => ...` at the top level: a definition (see
+    // function_definition's dynamic precedence), not a lambda.
+    [$.dependency_list, $.local_dependency_list],
+    [$.function_definition, $.local_function_definition],
   ],
 
   rules: {
@@ -62,14 +64,15 @@ export default grammar({
     tuple_type: ($) =>
       seq("<", $.type_or_object, ",", commaSep1($.type_or_object), ">"),
 
+    // `(ctx: http.Context) => null`, or `(i32) => i32`: the type of a function
+    // value, written like a definition's head. Parameter names are optional.
     function_type: ($) =>
-      prec(
-        2,
+      prec.right(
         seq(
-          // Higher precedence to function_type
-          "fn",
-          field("parameters", $.parameter_list),
-          ":",
+          "(",
+          commaSep(field("parameter", choice($.parameter, $.type_or_object))),
+          ")",
+          "=>",
           field("return_type", $.type_or_object),
         ),
       ),
@@ -118,25 +121,32 @@ export default grammar({
         $.identifier,
         optional(seq(":", field("type", $.type_or_object))),
         "=",
-        choice($.expression, $.block_expression, $.local_function_definition),
+        choice($.expression, $.block_expression),
       ),
 
     function_definition: ($) =>
-      seq(
-        optional($.dependency_list),
-        $.parameter_list,
-        "=>",
-        $.type_or_object, // Return type
-        choice($.expression, $.block_expression),
+      prec.dynamic(
+        1,
+        seq(
+          optional($.dependency_list),
+          $.parameter_list,
+          "=>",
+          $.type_or_object, // Return type
+          choice($.expression, $.block_expression),
+        ),
       ),
 
+    // Also a lambda: a function written where a value goes, e.g. passed as
+    // an argument, `http.get(app, "/", [http.text] (ctx: http.Context) => null { ... })`.
     local_function_definition: ($) =>
-      seq(
-        optional($.local_dependency_list),
-        $.parameter_list,
-        "=>",
-        $.type_or_object, // Return type
-        choice($.expression, $.block_expression),
+      prec.right(
+        seq(
+          optional($.local_dependency_list),
+          $.parameter_list,
+          "=>",
+          $.type_or_object, // Return type
+          choice($.expression, $.block_expression),
+        ),
       ),
 
     dependency_list: ($) =>
@@ -188,12 +198,17 @@ export default grammar({
       ),
 
     // `mem.Shared[Context]`: a type applied to type arguments.
+    // Binds before a lambda's `[deps]` could start: `=> mem.Weak[C] c` returns
+    // a mem.Weak[C].
     generic_type: ($) =>
-      seq(
-        field("base", choice($.identifier, $.child_annotation)),
-        "[",
-        commaSep1(field("argument", $.type_or_object)),
-        "]",
+      prec(
+        3,
+        seq(
+          field("base", choice($.identifier, $.child_annotation)),
+          "[",
+          commaSep1(field("argument", $.type_or_object)),
+          "]",
+        ),
       ),
 
     type_or_object: ($) =>
@@ -259,7 +274,9 @@ export default grammar({
     field_assignment: ($) =>
       seq(field("target", $.child_annotation), "=", field("value", $.expression)),
 
-    getter_owner: ($) => $.expression,
+    // `x[i]` binds tightest (`a + b[i]` is `a + (b[i])`), and never means `x`
+    // followed by a lambda's `[deps]`.
+    getter_owner: ($) => prec(14, $.expression),
 
     get_expression: ($) =>
       seq($.getter_owner, "[", choice($.expression, $.rest_of), "]"),
@@ -296,6 +313,7 @@ export default grammar({
         $.if,
         $.default_var,
         $.parenthesized_expression,
+        $.local_function_definition,
       ),
 
     child_annotation: ($) =>
