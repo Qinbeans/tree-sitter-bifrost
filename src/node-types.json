@@ -231,6 +231,7 @@
   {
     "type": "comment",
     "named": true,
+    "extra": true,
     "fields": {}
   },
   {
@@ -864,10 +865,6 @@
       "types": [
         {
           "type": "assignment",
-          "named": true
-        },
-        {
-          "type": "comment",
           "named": true
         },
         {

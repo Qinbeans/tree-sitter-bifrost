@@ -363,3 +363,34 @@ let a = raylib.Color(0, 0, 0, 255).r + 1
           (literal
             (number
               (integer))))))))
+
+==================
+Block comments
+==================
+
+/* one line */
+let f = () => i32 {
+    /* several
+       lines */
+    return 1 /* ** stars ** */
+}
+
+---
+
+(source_file
+  (comment)
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (parameter_list)
+      (type_or_object
+        (type))
+      (block_expression
+        (comment)
+        (return_statement
+          (expression
+            (literal
+              (number
+                (integer)))))
+        (comment)))))

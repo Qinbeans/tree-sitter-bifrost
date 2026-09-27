@@ -38,6 +38,13 @@ const periodSep2 = (rule) => {
 export default grammar({
   name: "bifrost",
 
+  // Comments may appear anywhere whitespace can.
+  extras: ($) => [/\s/, $.comment],
+
+  // Keywords only match whole words, so `window_width` never lexes as `w`,
+  // `in`, `dow`, `_width` (which error recovery otherwise tries).
+  word: ($) => $.simple_identifier,
+
   conflicts: ($) => [
     [$.assignment, $.getter_owner],
     [$.function_definition, $.getter_owner],
@@ -47,7 +54,7 @@ export default grammar({
   rules: {
     source_file: ($) =>
       seq(
-        repeat(choice($.function_definition, $.assignment, $.comment)),
+        repeat(choice($.function_definition, $.assignment)),
       ),
 
     list_type: ($) => seq($.type_or_object, "[]"),
@@ -370,7 +377,8 @@ export default grammar({
     comment: ($) =>
       choice(
         token(seq("//", /.*/)),
-        token(seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "*/")),
+        // The pattern ends on the closing `*`, so only `/` follows it.
+        token(seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")),
       ),
   },
 });
