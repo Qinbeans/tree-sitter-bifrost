@@ -1,0 +1,122 @@
+==================
+Lock, access through the guard, release
+==================
+
+let draw = (ctx: ptr[] Context) => null {
+    let guard <- ctx
+    guard.counter = guard.counter + 1
+    guard -> ctx
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (parameter_list
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type
+              (pointer_type
+                (type_or_object
+                  (identifier
+                    (simple_identifier))))))))
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (lock
+          (identifier
+            (simple_identifier))
+          (expression
+            (identifier
+              (simple_identifier))))
+        (field_assignment
+          (child_annotation
+            (simple_identifier)
+            (simple_identifier))
+          (expression
+            (binary_expression
+              (expression
+                (child_annotation
+                  (simple_identifier)
+                  (simple_identifier)))
+              (expression
+                (literal
+                  (number
+                    (integer)))))))
+        (release
+          (identifier
+            (simple_identifier))
+          (expression
+            (identifier
+              (simple_identifier))))))))
+
+==================
+Pointer types with guards
+==================
+
+let close = (file: ptr[own, null] File) => null {}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (parameter_list
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type
+              (pointer_type
+                (identifier
+                  (simple_identifier))
+                (identifier
+                  (simple_identifier))
+                (type_or_object
+                  (identifier
+                    (simple_identifier))))))))
+      (type_or_object
+        (type
+          (null)))
+      (block_expression))))
+
+==================
+Less than a negative number is not a lock
+==================
+
+let f = (x: i32) => bool x<-1
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (parameter_list
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type))))
+      (type_or_object
+        (type))
+      (expression
+        (binary_expression
+          (expression
+            (identifier
+              (simple_identifier)))
+          (expression
+            (unary_expression
+              (expression
+                (literal
+                  (number
+                    (integer)))))))))))

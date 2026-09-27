@@ -151,7 +151,19 @@
           "named": true
         },
         {
+          "type": "field_assignment",
+          "named": true
+        },
+        {
           "type": "local_assignment",
+          "named": true
+        },
+        {
+          "type": "lock",
+          "named": true
+        },
+        {
+          "type": "release",
           "named": true
         },
         {
@@ -329,6 +341,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "field_assignment",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "child_annotation",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -661,6 +699,32 @@
     }
   },
   {
+    "type": "lock",
+    "named": true,
+    "fields": {
+      "guard": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "match_arm",
     "named": true,
     "fields": {},
@@ -813,6 +877,32 @@
     }
   },
   {
+    "type": "pointer_type",
+    "named": true,
+    "fields": {
+      "guard": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_or_object",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "record",
     "named": true,
     "fields": {},
@@ -844,6 +934,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "release",
+    "named": true,
+    "fields": {
+      "guard": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1038,6 +1154,10 @@
           "named": true
         },
         {
+          "type": "pointer_type",
+          "named": true
+        },
+        {
           "type": "tuple_type",
           "named": true
         }
@@ -1219,6 +1339,10 @@
     "named": false
   },
   {
+    "type": "->",
+    "named": false
+  },
+  {
     "type": ".",
     "named": false
   },
@@ -1232,6 +1356,10 @@
   },
   {
     "type": "<",
+    "named": false
+  },
+  {
+    "type": "<-",
     "named": false
   },
   {
@@ -1460,6 +1588,10 @@
   },
   {
     "type": "panic",
+    "named": false
+  },
+  {
+    "type": "ptr",
     "named": false
   },
   {

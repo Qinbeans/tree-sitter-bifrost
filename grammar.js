@@ -152,6 +152,7 @@ export default grammar({
           $.list_type,
           $.tuple_type,
           $.function_type,
+          $.pointer_type,
           "i8",
           "i16",
           "i32",
@@ -212,8 +213,35 @@ export default grammar({
     block_expression: ($) =>
       seq(
         "{",
-        repeat(choice($.expression, $.local_assignment, $.return_statement)),
+        repeat(
+          choice(
+            $.expression,
+            $.local_assignment,
+            $.return_statement,
+            $.lock,
+            $.release,
+            $.field_assignment,
+          ),
+        ),
         "}",
+      ),
+
+    // `let guard <- ctx`: lock ctx; the guard is the only way to reach it
+    // until `guard -> ctx` releases it, in the same scope or a child scope.
+    lock: ($) =>
+      seq("let", field("guard", $.identifier), "<-", field("source", $.expression)),
+
+    release: ($) =>
+      seq(field("guard", $.identifier), "->", field("source", $.expression)),
+
+    // `guard.counter = value`: fields change only through a guard.
+    field_assignment: ($) =>
+      seq(field("target", $.child_annotation), "=", field("value", $.expression)),
+
+    // `ptr[] Context`: a pointer, with its guards in brackets (`ptr[own] File`).
+    pointer_type: ($) =>
+      prec.right(
+        seq("ptr", "[", commaSep(field("guard", $.identifier)), "]", field("target", $.type_or_object)),
       ),
 
     getter_owner: ($) => $.expression,
