@@ -1,0 +1,130 @@
+==================
+Module with a description and an export
+==================
+
+let stdio = import("std:stdio")
+
+module helper = {
+    /* Says hello */
+    let greet = [stdio.printf] (name: str) => null stdio.printf("Hello, %s!\n", name)
+    let Point = struct { let x: i32 }
+    let answer = 42
+}
+
+export(helper)
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (function_call
+        (builtin_call
+          (builtin)
+          (expression
+            (literal
+              (string)))))))
+  (module
+    (identifier
+      (simple_identifier))
+    (comment)
+    (assignment
+      (identifier
+        (simple_identifier))
+      (function_definition
+        (dependency_list
+          (child_annotation
+            (simple_identifier)
+            (simple_identifier)))
+        (parameter_list
+          (parameter
+            (identifier
+              (simple_identifier))
+            (type_or_object
+              (type))))
+        (type_or_object
+          (type
+            (null)))
+        (expression
+          (child_annotation
+            (simple_identifier)
+            (function_call
+              (user_function_call
+                (identifier
+                  (simple_identifier))
+                (expression
+                  (literal
+                    (string)))
+                (expression
+                  (identifier
+                    (simple_identifier)))))))))
+    (assignment
+      (identifier
+        (simple_identifier))
+      (struct_assignment
+        (struct_field
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type)))))
+    (assignment
+      (identifier
+        (simple_identifier))
+      (expression
+        (literal
+          (number
+            (integer))))))
+  (export_statement
+    (identifier
+      (simple_identifier))))
+
+==================
+Several modules, several exports
+==================
+
+module a = {
+    let one = () => i32 1
+}
+module b = {
+    let two = () => i32 2
+}
+export(a, b)
+
+---
+
+(source_file
+  (module
+    (identifier
+      (simple_identifier))
+    (assignment
+      (identifier
+        (simple_identifier))
+      (function_definition
+        (parameter_list)
+        (type_or_object
+          (type))
+        (expression
+          (literal
+            (number
+              (integer)))))))
+  (module
+    (identifier
+      (simple_identifier))
+    (assignment
+      (identifier
+        (simple_identifier))
+      (function_definition
+        (parameter_list)
+        (type_or_object
+          (type))
+        (expression
+          (literal
+            (number
+              (integer)))))))
+  (export_statement
+    (identifier
+      (simple_identifier))
+    (identifier
+      (simple_identifier))))

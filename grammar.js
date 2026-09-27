@@ -54,7 +54,7 @@ export default grammar({
   rules: {
     source_file: ($) =>
       seq(
-        repeat(choice($.function_definition, $.assignment)),
+        repeat(choice($.function_definition, $.assignment, $.module, $.export_statement)),
       ),
 
     list_type: ($) => seq($.type_or_object, "[]"),
@@ -74,7 +74,13 @@ export default grammar({
         ),
       ),
 
-    module: ($) => seq("module", $.identifier, "=", $.block_expression),
+    // `module helper = { let greet = ... }`: a named group of `let`s. A block
+    // comment at its top is its description.
+    module: ($) =>
+      seq("module", field("name", $.identifier), "=", "{", repeat(field("member", $.assignment)), "}"),
+
+    // `export(helper)`: modules other files may import, as `import("file:helper")`.
+    export_statement: ($) => seq("export", "(", commaSep1(field("module", $.identifier)), ")"),
 
     // `let x: T` is a stored field; `let f = (...) => ...` a function of the
     // object; `static let f = ...` one called on the type (`Context.new()`).
