@@ -762,6 +762,16 @@
             "named": true
           }
         ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_or_object",
+            "named": true
+          }
+        ]
       }
     }
   },

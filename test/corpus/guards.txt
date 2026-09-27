@@ -182,3 +182,56 @@ let f = (x: i32) => bool x<-1
                 (literal
                   (number
                     (integer)))))))))))
+
+==================
+Lock with a guard type
+==================
+
+let f = (ctx: mem.Weak[Context]) => null {
+    let guard: mem.WeakGuard[Context] <- ctx
+    guard -> ctx
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (parameter_list
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (generic_type
+              (child_annotation
+                (simple_identifier)
+                (simple_identifier))
+              (type_or_object
+                (identifier
+                  (simple_identifier)))))))
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (lock
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (generic_type
+              (child_annotation
+                (simple_identifier)
+                (simple_identifier))
+              (type_or_object
+                (identifier
+                  (simple_identifier)))))
+          (expression
+            (identifier
+              (simple_identifier))))
+        (release
+          (identifier
+            (simple_identifier))
+          (expression
+            (identifier
+              (simple_identifier))))))))

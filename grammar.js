@@ -238,7 +238,13 @@ export default grammar({
     // `let guard <- ctx`: lock ctx; the guard is the only way to reach it
     // until `guard -> ctx` releases it, in the same scope or a child scope.
     lock: ($) =>
-      seq("let", field("guard", $.identifier), "<-", field("source", $.expression)),
+      seq(
+        "let",
+        field("guard", $.identifier),
+        optional(seq(":", field("type", $.type_or_object))),
+        "<-",
+        field("source", $.expression),
+      ),
 
     release: ($) =>
       seq(field("guard", $.identifier), "->", field("source", $.expression)),
