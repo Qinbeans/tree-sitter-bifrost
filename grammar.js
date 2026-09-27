@@ -420,7 +420,8 @@ export default grammar({
     record: ($) => seq("#{", commaSep($.record_field), "}"),
     tuple: ($) => seq("#(", commaSep($.expression), ")"),
     boolean: ($) => choice("true", "false"),
-    string: ($) => /"[^"]*"/,
+    // `\"` is a quote inside the string; the compiler decodes the escapes.
+    string: ($) => /"([^"\\\n]|\\.)*"/,
     simple_identifier: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,
     // Above child_annotation's segments, so `a.f(x)` is a call rather than
     // `a.f` followed by the parenthesized `(x)`.

@@ -394,3 +394,26 @@ let f = () => i32 {
               (number
                 (integer)))))
         (comment)))))
+
+==================
+Escaped quotes and backslashes in strings
+==================
+
+let a = "{\"id\": 1}"
+let b = "ends with a backslash \\"
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (literal
+        (string))))
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (literal
+        (string)))))
