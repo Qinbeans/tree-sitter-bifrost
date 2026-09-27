@@ -396,6 +396,44 @@ let f = () => i32 {
         (comment)))))
 
 ==================
+A call after a comment
+==================
+
+let f = [] () => null {
+    let a = b // a second owner
+    g(a)
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list)
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (identifier
+              (simple_identifier))))
+        (comment)
+        (expression
+          (function_call
+            (user_function_call
+              (identifier
+                (simple_identifier))
+              (expression
+                (identifier
+                  (simple_identifier))))))))))
+
+==================
 Escaped quotes and backslashes in strings
 ==================
 

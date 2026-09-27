@@ -406,10 +406,15 @@ export default grammar({
         field("arguments", seq("(", commaSep($.expression), ")")),
       ),
 
+    // `f(x)` in a block could also read as two statements, `f` then `(x)`;
+    // the dynamic precedence always picks the call.
     user_function_call: ($) =>
-      seq(
-        field("function", $.identifier),
-        field("arguments", seq("(", commaSep(choice($.expression, $.named_argument)), ")")),
+      prec.dynamic(
+        1,
+        seq(
+          field("function", $.identifier),
+          field("arguments", seq("(", commaSep(choice($.expression, $.named_argument)), ")")),
+        ),
       ),
 
     // `Context(window_width: 800)`: an argument given by name.

@@ -14,7 +14,7 @@
     }
   ],
   "metadata": {
-    "version": "0.1.14",
+    "version": "0.1.15",
     "license": "MIT",
     "description": "Bifrost grammar for tree-sitter",
     "authors": [
