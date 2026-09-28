@@ -78,3 +78,86 @@ let f = [] () => null {
           (expression
             (literal
               (record))))))))
+
+================================================================================
+Record types
+================================================================================
+
+let pair = [] (a: i64) => #{low: i64, high: #{value: f64}} {
+    return #{low: a, high: #{value: 1.5}}
+}
+let inferred = [] () => Record #{done: true}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list)
+      (parameter_list
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type))))
+      (type_or_object
+        (record_type
+          (record_type_field
+            name: (identifier
+              (simple_identifier))
+            type: (type_or_object
+              (type)))
+          (record_type_field
+            name: (identifier
+              (simple_identifier))
+            type: (type_or_object
+              (record_type
+                (record_type_field
+                  name: (identifier
+                    (simple_identifier))
+                  type: (type_or_object
+                    (type))))))))
+      (block_expression
+        (return_statement
+          (expression
+            (literal
+              (record
+                (record_field
+                  name: (identifier
+                    (simple_identifier))
+                  value: (expression
+                    (identifier
+                      (simple_identifier))))
+                (record_field
+                  name: (identifier
+                    (simple_identifier))
+                  value: (expression
+                    (literal
+                      (record
+                        (record_field
+                          name: (identifier
+                            (simple_identifier))
+                          value: (expression
+                            (literal
+                              (number
+                                (float))))))))))))))))
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list)
+      (parameter_list)
+      (type_or_object
+        (identifier
+          (simple_identifier)))
+      (expression
+        (literal
+          (record
+            (record_field
+              name: (identifier
+                (simple_identifier))
+              value: (expression
+                (literal
+                  (boolean))))))))))

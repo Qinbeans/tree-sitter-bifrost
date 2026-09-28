@@ -1087,6 +1087,47 @@
     }
   },
   {
+    "type": "record_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "record_type_field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "record_type_field",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_or_object",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "release",
     "named": true,
     "fields": {
@@ -1336,6 +1377,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "record_type",
           "named": true
         },
         {

@@ -214,7 +214,11 @@ export default grammar({
       ),
 
     type_or_object: ($) =>
-      prec(2, choice($.type, $.generic_type, $.identifier, $.child_annotation)),
+      prec(2, choice($.type, $.generic_type, $.identifier, $.child_annotation, $.record_type)),
+
+    // A record's type: `#{name: str, ms: i64}` (records with the same fields share it).
+    record_type_field: ($) => seq(field("name", $.identifier), ":", field("type", $.type_or_object)),
+    record_type: ($) => seq("#{", commaSep1($.record_type_field), optional(","), "}"),
 
     ellipsis: ($) => "...",
 
