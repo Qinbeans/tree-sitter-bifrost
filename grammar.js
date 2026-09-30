@@ -289,8 +289,9 @@ export default grammar({
     // followed by a lambda's `[deps]`.
     getter_owner: ($) => prec(14, $.expression),
 
+    // `xs[i]`, or a slice: `xs[a...b]`, `xs[a...]`, `xs[...b]`.
     get_expression: ($) =>
-      seq($.getter_owner, "[", choice($.expression, $.rest_of), "]"),
+      seq($.getter_owner, "[", choice($.expression, $.rest_of, $.spread_between, $.spread_action), "]"),
 
 
     while: ($) =>

@@ -576,6 +576,14 @@
         {
           "type": "rest_of",
           "named": true
+        },
+        {
+          "type": "spread_action",
+          "named": true
+        },
+        {
+          "type": "spread_between",
+          "named": true
         }
       ]
     }

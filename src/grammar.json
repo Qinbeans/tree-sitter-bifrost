@@ -1487,6 +1487,14 @@
             {
               "type": "SYMBOL",
               "name": "rest_of"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "spread_between"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "spread_action"
             }
           ]
         },

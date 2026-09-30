@@ -455,3 +455,86 @@ let b = "ends with a backslash \\"
     (expression
       (literal
         (string)))))
+
+================================================================================
+Slices
+================================================================================
+
+let f = [] (xs: i64[]) => null {
+    let a = xs[1...3]
+    let b = xs[1...]
+    let c = xs[...-1]
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list)
+      (parameter_list
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type
+              (list_type
+                (type_or_object
+                  (type)))))))
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (get_expression
+              (getter_owner
+                (expression
+                  (identifier
+                    (simple_identifier))))
+              (spread_between
+                (expression
+                  (literal
+                    (number
+                      (integer))))
+                (ellipsis)
+                (expression
+                  (literal
+                    (number
+                      (integer))))))))
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (get_expression
+              (getter_owner
+                (expression
+                  (identifier
+                    (simple_identifier))))
+              (rest_of
+                (expression
+                  (literal
+                    (number
+                      (integer))))
+                (ellipsis)))))
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (get_expression
+              (getter_owner
+                (expression
+                  (identifier
+                    (simple_identifier))))
+              (spread_action
+                (ellipsis)
+                (expression
+                  (unary_expression
+                    (expression
+                      (literal
+                        (number
+                          (integer))))))))))))))
