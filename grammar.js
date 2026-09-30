@@ -51,6 +51,8 @@ export default grammar({
     // function_definition's dynamic precedence), not a lambda.
     [$.dependency_list, $.local_dependency_list],
     [$.function_definition, $.local_function_definition],
+    // After a function's `=>`, `(a: T) => R`: its result's type (see function_type).
+    [$.function_type, $.parameter_list],
   ],
 
   rules: {
@@ -66,14 +68,19 @@ export default grammar({
 
     // `(ctx: http.Context) => null`, or `(i32) => i32`: the type of a function
     // value, written like a definition's head. Parameter names are optional.
+    // After a function's `=>`, `(...) => T` is its result's type (a function
+    // type), not a lambda as its body: `(a: i64) => () => i64 { ... }`.
     function_type: ($) =>
-      prec.right(
-        seq(
+      prec.dynamic(
+        1,
+        prec.right(
+          seq(
           "(",
           commaSep(field("parameter", choice($.parameter, $.type_or_object))),
           ")",
           "=>",
-          field("return_type", $.type_or_object),
+            field("return_type", $.type_or_object),
+          ),
         ),
       ),
 
@@ -329,8 +336,15 @@ export default grammar({
         $.local_function_definition,
       ),
 
+    // `a.b`, `a.f(x).c`, or reading on from an item: `users[0].name`.
     child_annotation: ($) =>
-      prec(2, periodSep2(choice($.simple_identifier, $.function_call))),
+      prec(
+        2,
+        seq(
+          choice($.simple_identifier, $.function_call, $.get_expression),
+          repeat1(seq(".", choice($.simple_identifier, $.function_call))),
+        ),
+      ),
 
     match_expression: ($) =>
       seq("match", $.expression, "{", commaSep1($.match_arm), "}"),

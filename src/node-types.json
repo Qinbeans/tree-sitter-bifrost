@@ -254,6 +254,10 @@
           "named": true
         },
         {
+          "type": "get_expression",
+          "named": true
+        },
+        {
           "type": "simple_identifier",
           "named": true
         }

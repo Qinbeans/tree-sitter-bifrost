@@ -538,3 +538,67 @@ let f = [] (xs: i64[]) => null {
                       (literal
                         (number
                           (integer))))))))))))))
+
+================================================================================
+Reading on from an item
+================================================================================
+
+let f = [] (users: User[]) => null {
+    let a = users[0].name
+    let b = team.rows[1].tags.first
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list)
+      (parameter_list
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type
+              (list_type
+                (type_or_object
+                  (identifier
+                    (simple_identifier))))))))
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (child_annotation
+              (get_expression
+                (getter_owner
+                  (expression
+                    (identifier
+                      (simple_identifier))))
+                (expression
+                  (literal
+                    (number
+                      (integer)))))
+              (simple_identifier))))
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (child_annotation
+              (get_expression
+                (getter_owner
+                  (expression
+                    (child_annotation
+                      (simple_identifier)
+                      (simple_identifier))))
+                (expression
+                  (literal
+                    (number
+                      (integer)))))
+              (simple_identifier)
+              (simple_identifier))))))))
