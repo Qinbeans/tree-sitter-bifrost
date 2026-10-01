@@ -25,7 +25,8 @@ export(helper)
           (builtin)
           (expression
             (literal
-              (string)))))))
+              (string
+                (string_text))))))))
   (module
     (identifier
       (simple_identifier))
@@ -56,7 +57,9 @@ export(helper)
                   (simple_identifier))
                 (expression
                   (literal
-                    (string)))
+                    (string
+                      (string_text)
+                      (string_escape))))
                 (expression
                   (identifier
                     (simple_identifier)))))))))

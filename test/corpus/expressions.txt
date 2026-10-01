@@ -319,7 +319,8 @@ let f = () => null {
                       (integer))))
                 (expression
                   (literal
-                    (string)))))))))))
+                    (string
+                      (string_text))))))))))))
 
 ==================
 Field of a dotted call's result
@@ -437,7 +438,7 @@ let f = [] () => null {
 Escaped quotes and backslashes in strings
 ==================
 
-let a = "{\"id\": 1}"
+let a = "{{\"id\": 1}}"
 let b = "ends with a backslash \\"
 
 ---
@@ -448,13 +449,21 @@ let b = "ends with a backslash \\"
       (simple_identifier))
     (expression
       (literal
-        (string))))
+        (string
+          (string_brace)
+          (string_escape)
+          (string_text)
+          (string_escape)
+          (string_text)
+          (string_brace)))))
   (assignment
     (identifier
       (simple_identifier))
     (expression
       (literal
-        (string)))))
+        (string
+          (string_text)
+          (string_escape))))))
 
 ================================================================================
 Slices
@@ -602,3 +611,63 @@ let f = [] (users: User[]) => null {
                       (integer)))))
               (simple_identifier)
               (simple_identifier))))))))
+
+================================================================================
+Interpolated strings
+================================================================================
+
+let greet = [] (name: str, price: f64) => null {
+    let a = "Hello, {name}!"
+    let b = "{price:.2f} {{x}}"
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list)
+      (parameter_list
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type)))
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type))))
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (literal
+              (string
+                (string_text)
+                (interpolation
+                  value: (expression
+                    (identifier
+                      (simple_identifier))))
+                (string_text)))))
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (literal
+              (string
+                (interpolation
+                  value: (expression
+                    (identifier
+                      (simple_identifier)))
+                  format: (format_spec))
+                (string_text)
+                (string_brace)
+                (string_text)
+                (string_brace)))))))))

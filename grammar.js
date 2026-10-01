@@ -474,8 +474,26 @@ export default grammar({
     record: ($) => seq("#{", commaSep($.record_field), "}"),
     tuple: ($) => seq("#(", commaSep($.expression), ")"),
     boolean: ($) => choice("true", "false"),
-    // `\"` is a quote inside the string; the compiler decodes the escapes.
-    string: ($) => /"([^"\\\n]|\\.)*"/,
+    // `"Hello, {name}!"`: text, escapes (`\"`, `\n`; the compiler decodes them),
+    // `{{` and `}}` for braces, and `{expression}` or `{expression:spec}` (a printf
+    // conversion, `{price:.2f}`), which the compiler interpolates.
+    string: ($) =>
+      seq(
+        '"',
+        repeat(choice($.string_text, $.string_escape, $.string_brace, $.interpolation)),
+        token.immediate('"'),
+      ),
+    string_text: ($) => token.immediate(prec(1, /[^"\\{}\n]+/)),
+    string_escape: ($) => token.immediate(/\\(x[0-9a-fA-F]{2}|.)/),
+    string_brace: ($) => token.immediate(choice("{{", "}}")),
+    interpolation: ($) =>
+      seq(
+        token.immediate("{"),
+        field("value", $.expression),
+        optional(seq(token.immediate(":"), field("format", $.format_spec))),
+        "}",
+      ),
+    format_spec: ($) => token.immediate(/[^}"\n]+/),
     simple_identifier: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,
     // Above child_annotation's segments, so `a.f(x)` is a call rather than
     // `a.f` followed by the parenthesized `(x)`.

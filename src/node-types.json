@@ -676,6 +676,32 @@
     }
   },
   {
+    "type": "interpolation",
+    "named": true,
+    "fields": {
+      "format": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "format_spec",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "list",
     "named": true,
     "fields": {},
@@ -1270,6 +1296,33 @@
     }
   },
   {
+    "type": "string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "string_brace",
+          "named": true
+        },
+        {
+          "type": "string_escape",
+          "named": true
+        },
+        {
+          "type": "string_text",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "struct_assignment",
     "named": true,
     "fields": {},
@@ -1506,6 +1559,10 @@
     "named": false
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "#(",
     "named": false
   },
@@ -1710,6 +1767,10 @@
     "named": false
   },
   {
+    "type": "format_spec",
+    "named": true
+  },
+  {
     "type": "h16",
     "named": false
   },
@@ -1830,7 +1891,15 @@
     "named": false
   },
   {
-    "type": "string",
+    "type": "string_brace",
+    "named": true
+  },
+  {
+    "type": "string_escape",
+    "named": true
+  },
+  {
+    "type": "string_text",
     "named": true
   },
   {

@@ -42,7 +42,8 @@ let f = [] () => null {
                           (simple_identifier))
                         (expression
                           (literal
-                            (string))))
+                            (string
+                              (string_text)))))
                       (record_field
                         (identifier
                           (simple_identifier))
@@ -58,7 +59,8 @@ let f = [] () => null {
                                     (simple_identifier)))
                                 (expression
                                   (literal
-                                    (string))))))))
+                                    (string
+                                      (string_text)))))))))
                       (record_field
                         (identifier
                           (simple_identifier))

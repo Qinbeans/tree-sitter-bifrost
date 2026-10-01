@@ -165,7 +165,8 @@ let main = [http.get] () => null {
                     (simple_identifier)))
                 (expression
                   (literal
-                    (string)))
+                    (string
+                      (string_text))))
                 (expression
                   (local_function_definition
                     (local_dependency_list
@@ -200,7 +201,8 @@ let main = [http.get] () => null {
                                     (integer))))
                               (expression
                                 (literal
-                                  (string))))))))))))))))))
+                                  (string
+                                    (string_text)))))))))))))))))))
 
 ==================
 Indexing binds tighter than operators
