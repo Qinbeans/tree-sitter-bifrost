@@ -1419,8 +1419,17 @@
           "type": "FIELD",
           "name": "target",
           "content": {
-            "type": "SYMBOL",
-            "name": "child_annotation"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "child_annotation"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "get_expression"
+              }
+            ]
           }
         },
         {

@@ -283,3 +283,72 @@ let f = [] () => null {
           (expression
             (identifier
               (simple_identifier))))))))
+
+====================================================
+Items and fields of items change through a guard
+====================================================
+
+let f = [] () => null {
+    let g <- xs
+    g[0] = 10
+    g.members[-1].name = z
+    g -> xs
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list)
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (lock
+          (identifier
+            (simple_identifier))
+          (expression
+            (identifier
+              (simple_identifier))))
+        (field_assignment
+          (get_expression
+            (getter_owner
+              (expression
+                (identifier
+                  (simple_identifier))))
+            (expression
+              (literal
+                (number
+                  (integer)))))
+          (expression
+            (literal
+              (number
+                (integer)))))
+        (field_assignment
+          (child_annotation
+            (get_expression
+              (getter_owner
+                (expression
+                  (child_annotation
+                    (simple_identifier)
+                    (simple_identifier))))
+              (expression
+                (unary_expression
+                  (expression
+                    (literal
+                      (number
+                        (integer)))))))
+            (simple_identifier))
+          (expression
+            (identifier
+              (simple_identifier))))
+        (release
+          (identifier
+            (simple_identifier))
+          (expression
+            (identifier
+              (simple_identifier))))))))

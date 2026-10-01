@@ -402,6 +402,10 @@
           {
             "type": "child_annotation",
             "named": true
+          },
+          {
+            "type": "get_expression",
+            "named": true
           }
         ]
       },

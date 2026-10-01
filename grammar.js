@@ -285,8 +285,9 @@ export default grammar({
       seq(field("guard", $.identifier), "->", field("source", $.expression)),
 
     // `guard.counter = value`: fields change only through a guard.
+    // `guard.f = v`, `guard[i] = v`, `guard.items[i].f = v`: change part of what a guard holds.
     field_assignment: ($) =>
-      seq(field("target", $.child_annotation), "=", field("value", $.expression)),
+      seq(field("target", choice($.child_annotation, $.get_expression)), "=", field("value", $.expression)),
 
     // `guard = guard + 1`: write the whole value a guard holds, e.g. a mem.Atomic[i64].
     guard_assignment: ($) =>
