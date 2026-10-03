@@ -28,6 +28,21 @@ jobs:
           - os: ubuntu-latest
             python: "3.14"
             arch: x86_64
+          - os: ubuntu-24.04-arm
+            python: "3.10"
+            arch: aarch64
+          - os: ubuntu-24.04-arm
+            python: "3.11"
+            arch: aarch64
+          - os: ubuntu-24.04-arm
+            python: "3.12"
+            arch: aarch64
+          - os: ubuntu-24.04-arm
+            python: "3.13"
+            arch: aarch64
+          - os: ubuntu-24.04-arm
+            python: "3.14"
+            arch: aarch64
           - os: windows-latest
             python: "3.10"
             arch: x86_64
@@ -83,6 +98,8 @@ jobs:
             elif [[ "${{ matrix.arch }}" == "x86" ]]; then
               echo "CIBW_BUILD=cp${PYVER_NO_DOT}-win32" >> $GITHUB_ENV
             fi
+          elif [[ "${{ matrix.arch }}" == "aarch64" ]]; then
+            echo "CIBW_BUILD=cp${PYVER_NO_DOT}-manylinux_aarch64" >> $GITHUB_ENV
           else
             echo "CIBW_BUILD=cp${PYVER_NO_DOT}-manylinux_x86_64" >> $GITHUB_ENV
           fi
