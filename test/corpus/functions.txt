@@ -236,3 +236,97 @@ let f = [] () => i32 a + b[1]
                 (literal
                   (number
                     (integer)))))))))))
+
+================================================================================
+Generics, and lists of function values
+================================================================================
+
+let first[T] = [] (xs: T[]) => T xs[0]
+let Box[T, U] = struct { let value: T, let other: U }
+let handlers = [] (hs: ((x: i64) => i64)[]) => i64 len(hs)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    type_parameters: (type_parameters
+      name: (identifier
+        (simple_identifier)))
+    (function_definition
+      (dependency_list)
+      (parameter_list
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type
+              (list_type
+                (type_or_object
+                  (identifier
+                    (simple_identifier))))))))
+      (type_or_object
+        (identifier
+          (simple_identifier)))
+      (expression
+        (get_expression
+          (getter_owner
+            (expression
+              (identifier
+                (simple_identifier))))
+          (expression
+            (literal
+              (number
+                (integer))))))))
+  (assignment
+    (identifier
+      (simple_identifier))
+    type_parameters: (type_parameters
+      name: (identifier
+        (simple_identifier))
+      name: (identifier
+        (simple_identifier)))
+    (struct_assignment
+      (struct_field
+        (identifier
+          (simple_identifier))
+        (type_or_object
+          (identifier
+            (simple_identifier))))
+      (struct_field
+        (identifier
+          (simple_identifier))
+        (type_or_object
+          (identifier
+            (simple_identifier))))))
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list)
+      (parameter_list
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type
+              (list_type
+                (parenthesized_type
+                  (function_type
+                    parameter: (parameter
+                      (identifier
+                        (simple_identifier))
+                      (type_or_object
+                        (type)))
+                    return_type: (type_or_object
+                      (type)))))))))
+      (type_or_object
+        (type))
+      (expression
+        (function_call
+          (builtin_call
+            function: (builtin)
+            arguments: (expression
+              (identifier
+                (simple_identifier)))))))))

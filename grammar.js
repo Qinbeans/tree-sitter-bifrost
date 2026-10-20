@@ -53,6 +53,8 @@ export default grammar({
     [$.function_definition, $.local_function_definition],
     // After a function's `=>`, `(a: T) => R`: its result's type (see function_type).
     [$.function_type, $.parameter_list],
+    // `((x: i64) => i64)[]`: a list of function values, or a function taking one.
+    [$.type, $.parenthesized_type],
   ],
 
   rules: {
@@ -61,7 +63,10 @@ export default grammar({
         repeat(choice($.function_definition, $.assignment, $.module, $.export_statement)),
       ),
 
-    list_type: ($) => seq($.type_or_object, "[]"),
+    // `i64[]`, or a list of function values: `((x: i64) => i64)[]`.
+    list_type: ($) => seq(choice($.type_or_object, $.parenthesized_type), "[]"),
+
+    parenthesized_type: ($) => prec(1, seq("(", $.function_type, ")")),
 
     tuple_type: ($) =>
       seq("<", $.type_or_object, ",", commaSep1($.type_or_object), ">"),
@@ -118,9 +123,14 @@ export default grammar({
       seq(
         "let",
         $.identifier,
+        optional(field("type_parameters", $.type_parameters)),
         "=",
         choice($.expression, $.block_expression, $.function_definition, $.struct_assignment),
       ),
+
+    // `let first[T] = ...`, `let Box[T] = struct { ... }`: a generic function or
+    // object, compiled once for each set of types it is used with.
+    type_parameters: ($) => seq("[", commaSep1(field("name", $.identifier)), "]"),
 
     local_assignment: ($) =>
       seq(
