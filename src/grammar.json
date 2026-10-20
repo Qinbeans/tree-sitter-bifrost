@@ -1590,6 +1590,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "pipe_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "binary_expression"
         },
         {
@@ -2427,6 +2431,57 @@
               }
             ]
           }
+        }
+      ]
+    },
+    "pipe_expression": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "value",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "|>"
+          },
+          {
+            "type": "FIELD",
+            "name": "into",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "pipe_method"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "pipe_method": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "."
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_call"
         }
       ]
     },

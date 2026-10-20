@@ -321,6 +321,7 @@ export default grammar({
     expression: ($) =>
       choice(
         $.match_expression,
+        $.pipe_expression,
         $.binary_expression,
         $.unary_expression,
         $.await_expression,
@@ -416,6 +417,23 @@ export default grammar({
           ),
         ),
       ),
+
+    // `x |> f(a)` is `f(x, a)`: the value goes in as the first argument. The
+    // right side is a call, a function's name (`x |> f`, `x |> m.f`), a lambda
+    // (`x |> (y) => y + 1`), or a method of the value (`xs |> .sorted()`).
+    // Looser than every other operator, so `a + b |> f` is `f(a + b)`.
+    pipe_expression: ($) =>
+      prec.left(
+        0,
+        seq(
+          field("value", $.expression),
+          "|>",
+          field("into", choice($.expression, $.pipe_method)),
+        ),
+      ),
+
+    // `xs |> .sorted()`: a method of the value piped in.
+    pipe_method: ($) => seq(".", $.function_call),
 
     unary_expression: ($) =>
       prec(

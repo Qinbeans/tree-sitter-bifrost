@@ -381,6 +381,10 @@
           "named": true
         },
         {
+          "type": "pipe_expression",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         },
@@ -1082,6 +1086,51 @@
       "types": [
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pipe_expression",
+    "named": true,
+    "fields": {
+      "into": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "pipe_method",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "pipe_method",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "function_call",
           "named": true
         }
       ]
@@ -1944,6 +1993,10 @@
   },
   {
     "type": "|",
+    "named": false
+  },
+  {
+    "type": "|>",
     "named": false
   },
   {

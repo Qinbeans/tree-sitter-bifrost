@@ -671,3 +671,111 @@ let greet = [] (name: str, price: f64) => null {
                 (string_brace)
                 (string_text)
                 (string_brace)))))))))
+
+================================================================================
+Pipes
+================================================================================
+
+let a = xs |> f
+let b = x |> m.f(1) |> g
+let c = 1 + 2 |> f
+let d = xs |> .sorted()
+let e = x |> [] (y: i64) => i64 y + 1
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (pipe_expression
+        value: (expression
+          (identifier
+            (simple_identifier)))
+        into: (expression
+          (identifier
+            (simple_identifier))))))
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (pipe_expression
+        value: (expression
+          (pipe_expression
+            value: (expression
+              (identifier
+                (simple_identifier)))
+            into: (expression
+              (child_annotation
+                (simple_identifier)
+                (function_call
+                  (user_function_call
+                    function: (identifier
+                      (simple_identifier))
+                    arguments: (expression
+                      (literal
+                        (number
+                          (integer))))))))))
+        into: (expression
+          (identifier
+            (simple_identifier))))))
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (pipe_expression
+        value: (expression
+          (binary_expression
+            left: (expression
+              (literal
+                (number
+                  (integer))))
+            right: (expression
+              (literal
+                (number
+                  (integer))))))
+        into: (expression
+          (identifier
+            (simple_identifier))))))
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (pipe_expression
+        value: (expression
+          (identifier
+            (simple_identifier)))
+        into: (pipe_method
+          (function_call
+            (user_function_call
+              function: (identifier
+                (simple_identifier))))))))
+  (assignment
+    (identifier
+      (simple_identifier))
+    (expression
+      (pipe_expression
+        value: (expression
+          (identifier
+            (simple_identifier)))
+        into: (expression
+          (local_function_definition
+            (local_dependency_list)
+            (parameter_list
+              (parameter
+                (identifier
+                  (simple_identifier))
+                (type_or_object
+                  (type))))
+            (type_or_object
+              (type))
+            (expression
+              (binary_expression
+                left: (expression
+                  (identifier
+                    (simple_identifier)))
+                right: (expression
+                  (literal
+                    (number
+                      (integer))))))))))))
