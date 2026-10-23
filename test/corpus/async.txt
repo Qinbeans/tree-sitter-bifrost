@@ -127,3 +127,68 @@ let k = [run] () => null {
                               (expression
                                 (identifier
                                   (simple_identifier))))))))))))))))))
+
+================================================================================
+Try expressions
+================================================================================
+
+let f = [g] async (x: i64) => Result[i64, str] {
+    let a = await g(x)? + 1
+    return ok(a)
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (dependency_list
+        (identifier
+          (simple_identifier)))
+      (parameter_list
+        (parameter
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (type))))
+      (type_or_object
+        (generic_type
+          base: (identifier
+            (simple_identifier))
+          argument: (type_or_object
+            (type))
+          argument: (type_or_object
+            (type))))
+      (block_expression
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (expression
+            (binary_expression
+              left: (expression
+                (try_expression
+                  value: (expression
+                    (await_expression
+                      value: (expression
+                        (function_call
+                          (user_function_call
+                            function: (identifier
+                              (simple_identifier))
+                            arguments: (expression
+                              (identifier
+                                (simple_identifier))))))))))
+              right: (expression
+                (literal
+                  (number
+                    (integer)))))))
+        (return_statement
+          (expression
+            (function_call
+              (user_function_call
+                function: (identifier
+                  (simple_identifier))
+                arguments: (expression
+                  (identifier
+                    (simple_identifier)))))))))))

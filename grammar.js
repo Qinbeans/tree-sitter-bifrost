@@ -335,6 +335,7 @@ export default grammar({
         $.binary_expression,
         $.unary_expression,
         $.await_expression,
+        $.try_expression,
         $.function_call,
         $.literal,
         $.identifier,
@@ -456,6 +457,10 @@ export default grammar({
 
     // `await http.sleep(ms)`: wait for a call that pauses, in an async function.
     await_expression: ($) => prec(12, seq("await", field("value", $.expression))),
+
+    // `find(id)?`: a Result's value, or else return its error from the function. Looser than
+    // `await` (`await f()?` is `(await f())?`), tighter than the binary operators.
+    try_expression: ($) => prec(11, seq(field("value", $.expression), "?")),
 
     function_call: ($) => choice($.builtin_call, $.user_function_call),
 
