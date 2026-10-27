@@ -104,7 +104,7 @@ export default grammar({
       "let",
       $.identifier,
       choice(
-        seq(":", $.type_or_object),
+        seq(":", choice($.type_or_object, $.literal_type)),
         seq(
           optional(
             seq(":", $.type_or_object)
@@ -114,6 +114,10 @@ export default grammar({
         )
       )
     ),
+
+    // `let type: "employee"`: a field that only ever holds this text, filled in
+    // by the compiler (it tells a union's objects apart: see union_definition).
+    literal_type: ($) => $.string,
 
     struct_assignment: ($) => seq("struct", seq("{", commaSep($.struct_field), "}")),
 
@@ -125,8 +129,13 @@ export default grammar({
         $.identifier,
         optional(field("type_parameters", $.type_parameters)),
         "=",
-        choice($.expression, $.block_expression, $.function_definition, $.struct_assignment),
+        choice($.expression, $.block_expression, $.function_definition, $.struct_assignment, $.union_definition),
       ),
+
+    // `let Actor = Employee | Service on "type"`: a value that is one of these
+    // objects, told apart by their field `type` (each a different literal_type).
+    union_definition: ($) =>
+      seq(field("members", $.expression), "on", field("discriminator", $.string)),
 
     // `let first[T] = ...`, `let Box[T] = struct { ... }`: a generic function or
     // object, compiled once for each set of types it is used with.

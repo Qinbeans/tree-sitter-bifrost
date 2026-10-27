@@ -108,3 +108,44 @@ let a = f(1, size: 2)
               (literal
                 (number
                   (integer))))))))))
+
+==================
+A union of objects, told apart by a literal field
+==================
+
+let Employee = struct { let type: "employee", let name: str }
+let Actor = Employee | models.Service on "type"
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (struct_assignment
+      (struct_field
+        (identifier
+          (simple_identifier))
+        (literal_type
+          (string
+            (string_text))))
+      (struct_field
+        (identifier
+          (simple_identifier))
+        (type_or_object
+          (type)))))
+  (assignment
+    (identifier
+      (simple_identifier))
+    (union_definition
+      members: (expression
+        (binary_expression
+          left: (expression
+            (identifier
+              (simple_identifier)))
+          right: (expression
+            (child_annotation
+              (simple_identifier)
+              (simple_identifier)))))
+      discriminator: (string
+        (string_text)))))

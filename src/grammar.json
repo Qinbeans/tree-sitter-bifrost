@@ -341,8 +341,17 @@
                   "value": ":"
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "type_or_object"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "type_or_object"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "literal_type"
+                    }
+                  ]
                 }
               ]
             },
@@ -383,6 +392,10 @@
           ]
         }
       ]
+    },
+    "literal_type": {
+      "type": "SYMBOL",
+      "name": "string"
     },
     "struct_assignment": {
       "type": "SEQ",
@@ -497,8 +510,37 @@
             {
               "type": "SYMBOL",
               "name": "struct_assignment"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "union_definition"
             }
           ]
+        }
+      ]
+    },
+    "union_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "members",
+          "content": {
+            "type": "SYMBOL",
+            "name": "expression"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "on"
+        },
+        {
+          "type": "FIELD",
+          "name": "discriminator",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string"
+          }
         }
       ]
     },
