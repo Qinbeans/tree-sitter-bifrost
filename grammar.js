@@ -119,7 +119,17 @@ export default grammar({
     // by the compiler (it tells a union's objects apart: see union_definition).
     literal_type: ($) => $.string,
 
-    struct_assignment: ($) => seq("struct", seq("{", commaSep($.struct_field), "}")),
+    // `struct { let id: str } & Person`: the object also has each base's fields and
+    // functions, and is one wherever a base goes.
+    struct_assignment: ($) =>
+      seq(
+        "struct",
+        seq("{", commaSep($.struct_field), "}"),
+        repeat(seq("&", field("base", $.base))),
+      ),
+
+    // An object a struct builds on: `Person`, or one of a module's, `models.Person`.
+    base: ($) => prec.right(seq($.simple_identifier, repeat(seq(".", $.simple_identifier)))),
 
     statement: ($) => choice($.expression),
 
@@ -134,8 +144,14 @@ export default grammar({
 
     // `let Actor = Employee | Service on "type"`: a value that is one of these
     // objects, told apart by their field `type` (each a different literal_type).
+    // Its own functions follow in braces, as an object's do: `on "type" { let f = [super] ... }`.
     union_definition: ($) =>
-      seq(field("members", $.expression), "on", field("discriminator", $.string)),
+      seq(
+        field("members", $.expression),
+        "on",
+        field("discriminator", $.string),
+        optional(seq("{", commaSep($.struct_field), "}")),
+      ),
 
     // `let first[T] = ...`, `let Box[T] = struct { ... }`: a generic function or
     // object, compiled once for each set of types it is used with.

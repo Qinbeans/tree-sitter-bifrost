@@ -149,3 +149,87 @@ let Actor = Employee | models.Service on "type"
               (simple_identifier)))))
       discriminator: (string
         (string_text)))))
+
+==================
+An object built on others
+==================
+
+let Employee = struct { let id: str } & Person & models.Base
+let Admin = struct {} & Employee
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (struct_assignment
+      (struct_field
+        (identifier
+          (simple_identifier))
+        (type_or_object
+          (type)))
+      base: (base
+        (simple_identifier))
+      base: (base
+        (simple_identifier)
+        (simple_identifier))))
+  (assignment
+    (identifier
+      (simple_identifier))
+    (struct_assignment
+      base: (base
+        (simple_identifier)))))
+
+==================
+A union with functions of its own
+==================
+
+let Actor = Employee | Service on "type" {
+    let label = [super] () => i64 1,
+    static let make = [] () => Actor Service()
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (union_definition
+      members: (expression
+        (binary_expression
+          left: (expression
+            (identifier
+              (simple_identifier)))
+          right: (expression
+            (identifier
+              (simple_identifier)))))
+      discriminator: (string
+        (string_text))
+      (struct_field
+        (identifier
+          (simple_identifier))
+        (local_function_definition
+          (local_dependency_list)
+          (parameter_list)
+          (type_or_object
+            (type))
+          (expression
+            (literal
+              (number
+                (integer))))))
+      (struct_field
+        (identifier
+          (simple_identifier))
+        (local_function_definition
+          (local_dependency_list)
+          (parameter_list)
+          (type_or_object
+            (identifier
+              (simple_identifier)))
+          (expression
+            (function_call
+              (user_function_call
+                function: (identifier
+                  (simple_identifier))))))))))
