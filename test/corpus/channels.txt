@@ -1,0 +1,160 @@
+==================
+Send a literal on a channel
+==================
+
+let main = () => null {
+    let jobs: sync.Channel[i32] = channel(4)
+    7 -> jobs
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (local_assignment
+          (identifier
+            (simple_identifier))
+          (type_or_object
+            (generic_type
+              (child_annotation
+                (simple_identifier)
+                (simple_identifier))
+              (type_or_object
+                (type))))
+          (expression
+            (function_call
+              (user_function_call
+                (identifier
+                  (simple_identifier))
+                (expression
+                  (literal
+                    (number
+                      (integer))))))))
+        (send
+          (expression
+            (literal
+              (number
+                (integer))))
+          (expression
+            (identifier
+              (simple_identifier))))))))
+
+==================
+Send an expression, a call, and to a field or an item
+==================
+
+let main = () => null {
+    n + 1 -> jobs
+    f(x) -> chans[0]
+    #{id: 1} -> this.ch
+    true -> ready
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (send
+          (expression
+            (binary_expression
+              (expression
+                (identifier
+                  (simple_identifier)))
+              (expression
+                (literal
+                  (number
+                    (integer))))))
+          (expression
+            (identifier
+              (simple_identifier))))
+        (send
+          (expression
+            (function_call
+              (user_function_call
+                (identifier
+                  (simple_identifier))
+                (expression
+                  (identifier
+                    (simple_identifier))))))
+          (expression
+            (get_expression
+              (getter_owner
+                (expression
+                  (identifier
+                    (simple_identifier))))
+              (expression
+                (literal
+                  (number
+                    (integer)))))))
+        (send
+          (expression
+            (literal
+              (record
+                (record_field
+                  (identifier
+                    (simple_identifier))
+                  (expression
+                    (literal
+                      (number
+                        (integer))))))))
+          (expression
+            (child_annotation
+              (simple_identifier)
+              (simple_identifier))))
+        (send
+          (expression
+            (literal
+              (boolean)))
+          (expression
+            (identifier
+              (simple_identifier))))))))
+
+==================
+A bare name before the arrow stays a release
+==================
+
+let main = () => null {
+    let job <- jobs
+    job -> jobs
+}
+
+---
+
+(source_file
+  (assignment
+    (identifier
+      (simple_identifier))
+    (function_definition
+      (parameter_list)
+      (type_or_object
+        (type
+          (null)))
+      (block_expression
+        (lock
+          (identifier
+            (simple_identifier))
+          (expression
+            (identifier
+              (simple_identifier))))
+        (release
+          (identifier
+            (simple_identifier))
+          (expression
+            (identifier
+              (simple_identifier))))))))

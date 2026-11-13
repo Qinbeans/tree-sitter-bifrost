@@ -219,6 +219,10 @@
         {
           "type": "return_statement",
           "named": true
+        },
+        {
+          "type": "send",
+          "named": true
         }
       ]
     }
@@ -1344,6 +1348,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "send",
+    "named": true,
+    "fields": {
+      "channel": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

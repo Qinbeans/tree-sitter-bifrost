@@ -298,6 +298,7 @@ export default grammar({
             $.return_statement,
             $.lock,
             $.release,
+            $.send,
             $.field_assignment,
             $.guard_assignment,
           ),
@@ -316,8 +317,15 @@ export default grammar({
         field("source", $.expression),
       ),
 
+    // A bare name before `->` is a release (or, when the right side is a
+    // channel, a send of that name's value: the compiler tells them apart by type).
     release: ($) =>
-      seq(field("guard", $.identifier), "->", field("source", $.expression)),
+      prec(1, seq(field("guard", $.identifier), "->", field("source", $.expression))),
+
+    // `7 -> jobs`: send a value on a sync.Channel (or sync.CondVar). The sender
+    // waits only if every slot holds an unread message.
+    send: ($) =>
+      seq(field("value", $.expression), "->", field("channel", $.expression)),
 
     // `guard.counter = value`: fields change only through a guard.
     // `guard.f = v`, `guard[i] = v`, `guard.items[i].f = v`: change part of what a guard holds.
