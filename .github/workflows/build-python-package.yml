@@ -58,19 +58,19 @@ jobs:
           - os: windows-latest
             python: "3.14"
             arch: x86_64
-          - os: macos-14
+          - os: macos-15
             python: "3.10"
             arch: arm64
-          - os: macos-14
+          - os: macos-15
             python: "3.11"
             arch: arm64
-          - os: macos-14
+          - os: macos-15
             python: "3.12"
             arch: arm64
-          - os: macos-14
+          - os: macos-15
             python: "3.13"
             arch: arm64
-          - os: macos-14
+          - os: macos-15
             python: "3.14"
             arch: arm64
     steps:
@@ -90,7 +90,7 @@ jobs:
         shell: bash
         run: |
           PYVER_NO_DOT=$(echo "${{ matrix.python }}" | tr -d .)
-          if [[ "${{ matrix.os }}" == "macos-14" ]]; then
+          if [[ "${{ matrix.os }}" == "macos-15" ]]; then
             echo "CIBW_BUILD=cp${PYVER_NO_DOT}-macosx_arm64" >> $GITHUB_ENV
           elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
             if [[ "${{ matrix.arch }}" == "x86_64" ]]; then
